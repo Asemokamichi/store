@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            width: 200px;
+        }
+
+        th {
+            background-color: #0d466947;
+        }
+
+        td:first-child,
+        th:first-child {
+            padding-left: 4px;
+        }
+
+        td:last-child,
+        th:last-child {
+            padding-right: 4px;
+        }
+
+        .characteristic {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Addendum:</h1>
+<form action="/product/add_characteristics/submit" method="POST">
+    <table>
+        <tr>
+            <th>ID</th>
+            <td><span th:text="${product.productId}"></span></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><span th:text="${product.productName}"></span></td>
+        </tr>
+        <tr>
+            <th>Category Name</th>
+            <td><span th:text="${product.category.categoryName}"></span></td>
+        </tr>
+        <tr>
+            <th>Cost</th>
+            <td><span th:text="${product.cost}"></span></td>
+        </tr>
+    </table>
+
+    <h3>Характеристикa</h3>
+    <table>
+        <tr th:each="characteristic : ${product.category.getCharacteristics()}">
+            <th><span th:text="${characteristic.getCharacteristicName()}"></span>:</th>
+            <td>
+                <input type="text" name="characteristic_value" placeholder="characteristic_value">
+            </td>
+            <input type="hidden" name="characteristic_id" th:value="${characteristic.getCharacteristicId()}">
+        </tr>
+        <tr>
+            <input type="hidden" name="product_id" th:value="${product.getProductId()}">
+            <td><input type="submit" value="Edit"></td>
+        </tr>
+    </table>
+</body>
+</html>

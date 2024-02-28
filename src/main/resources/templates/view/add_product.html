@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            width: 200px;
+        }
+
+        th {
+            background-color: #0d466947;
+        }
+
+        td:first-child,
+        th:first-child {
+            padding-left: 4px;
+        }
+
+        td:last-child,
+        th:last-child {
+            padding-right: 4px;
+        }
+
+        .characteristic {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Addendum:</h1>
+<form action="/product/add_product/submit" method="POST">
+    <table>
+        <tr>
+            <th>Name</th>
+            <td><input type="text" name="productName" placeholder="productName"></td>
+        </tr>
+        <tr>
+            <th>Category Name</th>
+            <td>
+                <select name="categoryId">
+                    <th:block th:each="category : ${categories}">
+                        <option th:value="${category.getCategoryId()}"
+                                th:text="${category.getCategoryName()}"></option>
+                    </th:block>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Cost</th>
+            <td><input type="text" name="cost" placeholder="cost"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Add"></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

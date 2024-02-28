@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            width: 200px;
+        }
+
+        th {
+            background-color: #0d466947;
+        }
+
+        td:first-child,
+        th:first-child {
+            padding-left: 4px;
+        }
+
+        td:last-child,
+        th:last-child {
+            padding-right: 4px;
+        }
+
+        .characteristic {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Change:</h1>
+<form action="/product/edit_product/submit" method="POST">
+    <table>
+        <tr>
+            <th>ID</th>
+            <td><span th:text="${product.productId}"></span></td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><span th:text="${product.productName}"></span></td>
+            <td><input type="text" name="productName" placeholder="productName"></td>
+        </tr>
+        <tr>
+            <th>Cost</th>
+            <td><span th:text="${product.cost}"></span></td>
+            <td><input type="text" name="cost" placeholder="cost"></td>
+        </tr>
+    </table>
+    <h3 th:if="${!product.getProductCharacteristics().isEmpty()}"
+        th:text="'Характеристикa [' + ${product.getCategory().getCategoryName()} + ']'">
+    </h3>
+    <table>
+        <tr th:each="characteristic : ${product.productCharacteristics}">
+            <th><span th:text="${characteristic.characteristic.characteristicName}"></span>:</th>
+            <td><span th:text="${characteristic.characteristicValue}"></span></td>
+            <td>
+                <input type="text" name="characteristic_value" placeholder="characteristic_value">
+            </td>
+            <input type="hidden" name="characteristic_id" th:value="${characteristic.getProductCharacteristicId()}">
+        </tr>
+        <tr>
+            <input type="hidden" name="product_id" th:value="${product.productId}">
+            <td><input type="submit" value="Edit"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #203d4f;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            width: 200px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0d466947;
+        }
+
+        td:first-child,
+        th:first-child {
+            padding-left: 4px;
+        }
+
+        td:last-child,
+        th:last-child {
+            padding-right: 4px;
+        }
+
+        .characteristic {
+            font-weight: bold;
+        }
+
+        .review {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .review .author {
+            font-style: italic;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .review .content {
+            margin-left: 20px;
+            color: #666;
+        }
+
+        .characteristic{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Description:</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <td><span th:text="${product.productName}"></span></td>
+    </tr>
+    <tr>
+        <th>Category Name</th>
+        <td><span th:text="${product.category.categoryName}"></span></td>
+    </tr>
+    <tr>
+        <th>Cost</th>
+        <td><span th:text="${product.cost}"></span></td>
+    </tr>
+</table>
+
+<h3 th:if="${!product.getProductCharacteristics().isEmpty()}">Характеристикa</h3>
+<table >
+    <tr th:each="characteristic : ${product.productCharacteristics}">
+        <th><span th:text="${characteristic.characteristic.characteristicName}"></span>:</th>
+        <td><span th:text="${characteristic.characteristicValue}"></span></td>
+    </tr>
+</table>
+
+<div class="review">
+    <h2>Отзывы:</h2>
+    <th:block th:each="review : ${product.getReviews()}" th:if="${!product.getReviews().isEmpty()}">
+        <div class="author" th:text="${review.getUser().getFIO() + 'Оценка: ' + review.getScore()}"></div>
+        <div class="content" th:text="${review.getReview()}"></div>
+    </th:block>
+    <p th:if="${avgScore!=null}">Средняя оценка: <span th:text="${avgScore}"></span> звезд</p>
+</div>
+</body>
+</html>
+
