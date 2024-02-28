@@ -39,8 +39,7 @@ public class ProductService {
     }
 
     public Product findById(Long productID){
-        Product product = productRepository.findById(productID).orElseThrow();
-        return product;
+        return productRepository.findById(productID).orElseThrow();
     }
 
     public void deleteById(Long productID){

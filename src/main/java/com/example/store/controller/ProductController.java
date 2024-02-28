@@ -5,7 +5,10 @@ import com.example.store.entity.Characteristic;
 import com.example.store.entity.Product;
 import com.example.store.entity.ProductCharacteristic;
 import com.example.store.repository.*;
+import com.example.store.service.CategoryService;
+import com.example.store.service.ProductCharacteristicService;
 import com.example.store.service.ProductService;
+import com.example.store.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,16 +31,13 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @Autowired
-    private ProductCharacteristicRepository productCharacteristicRepository;
+    private ProductCharacteristicService productCharacteristicService;
 
     @Autowired
-    private CharacteristicRepository characteristicRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewService reviewService;
 
     @GetMapping()
     public String products(@RequestParam(value = "page", required = false) Integer pageNumber, Model model) {
@@ -68,10 +68,10 @@ public class ProductController {
     public String detailsProduct(@RequestParam("product_id") Long product_id,
                                  Model model) {
         Product product = productService.findById(product_id);
-        Double avgScore = reviewRepository.findAverageScoreByProduct(product);
+        Double avgScore = reviewService.findAverageScoreByProduct(product);
 
         model.addAttribute("product", product);
-        if (avgScore != null) model.addAttribute("avgScore", Math.ceil(avgScore * 10) / 10);
+        if (avgScore != null) model.addAttribute("avgScore", avgScore);
 
         return "view/details_product";
     }
@@ -79,7 +79,7 @@ public class ProductController {
     @PostMapping("/edit_product")
     public String editProduct(@RequestParam("product_id") Long product_id, Model model) {
         Product product = productService.findById(product_id);
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryService.findAll();
 
         model.addAttribute("product", product);
         model.addAttribute("categories", categories);
@@ -95,9 +95,6 @@ public class ProductController {
             @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
             @RequestParam(value = "characteristic_value") List<String> characteristicValueList
     ) {
-        System.out.println(characteristicIDList);
-        System.out.println(characteristicValueList);
-
         Product product = new Product();
 
         if (product_id != null) product = productService.findById(product_id);
@@ -106,17 +103,7 @@ public class ProductController {
 
         if (cost != null) product.setCost(cost);
 
-        if (characteristicIDList.size() == characteristicValueList.size() && !characteristicIDList.isEmpty()) {
-            for (int i = 0; i < characteristicIDList.size(); i++) {
-                System.out.println("abc");
-                System.out.println(characteristicValueList.get(i));
-
-                ProductCharacteristic pc = productCharacteristicRepository.findById(characteristicIDList.get(i)).orElseThrow();
-                pc.setCharacteristicValue(characteristicValueList.get(i));
-
-                productCharacteristicRepository.save(pc);
-            }
-        }
+        productCharacteristicService.saveAll(characteristicIDList, characteristicValueList);
 
         productService.save(product);
 
@@ -125,7 +112,7 @@ public class ProductController {
 
     @GetMapping("/add_product")
     public String addProduct(Model model) {
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
 
         return "view/add_product";
@@ -143,7 +130,7 @@ public class ProductController {
         if (productName != "") product.setProductName(productName);
 
         if (categoryId != null) {
-            Category category = categoryRepository.findById(categoryId).orElseThrow();
+            Category category = categoryService.findById(categoryId);
             product.setCategory(category);
         }
 
@@ -158,20 +145,11 @@ public class ProductController {
     @PostMapping("/add_characteristics/submit")
     public String addCharacteristicsSubmit(
             @RequestParam(value = "product_id") Long productID,
-            @RequestParam(value = "characteristic_id") List<Long> characteristicsID,
-            @RequestParam(value = "characteristic_value") List<String> characteristicsValue
+            @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
+            @RequestParam(value = "characteristic_value") List<String> characteristicValueList
     ) {
         Product product = productService.findById(productID);
-        for (int i = 0; i < characteristicsID.size(); i++) {
-            ProductCharacteristic pc = new ProductCharacteristic();
-            Characteristic c = characteristicRepository.getReferenceById(characteristicsID.get(i));
-
-            pc.setProduct(product);
-            pc.setCharacteristic(c);
-            pc.setCharacteristicValue(characteristicsValue.get(i));
-
-            productCharacteristicRepository.save(pc);
-        }
+        productCharacteristicService.saveAllByProduct(product, characteristicIDList, characteristicValueList);
 
         return "redirect:/product";
     }
