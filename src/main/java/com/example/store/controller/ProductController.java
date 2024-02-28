@@ -1,28 +1,18 @@
 package com.example.store.controller;
 
 import com.example.store.entity.Category;
-import com.example.store.entity.Characteristic;
 import com.example.store.entity.Product;
-import com.example.store.entity.ProductCharacteristic;
-import com.example.store.repository.*;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ProductCharacteristicService;
 import com.example.store.service.ProductService;
 import com.example.store.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/product")
