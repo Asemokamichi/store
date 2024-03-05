@@ -52,17 +52,51 @@
             font-style: italic;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #333;
+            color: #203d4f;
         }
 
         .review .content {
             margin-left: 20px;
-            color: #666;
+            color: #020a0fa6;
         }
 
         .characteristic{
             text-align: center;
         }
+
+        .review form {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .review form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .review form textarea,
+        .review form input[type="number"] {
+            width: 50%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .review form input[type="submit"] {
+            background-color: #0d4669;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .review form input[type="submit"]:hover {
+            background-color: #0d3456;
+        }
+
     </style>
 </head>
 <body>
@@ -92,6 +126,15 @@
 
 <div class="review">
     <h2>Отзывы:</h2>
+    <form action="/addReview" method="post" th:if="${checkReview == false}">
+        <label for="review" th:name="review">Напишите ваш отзыв:</label><br>
+        <textarea id="review" name="review" rows="4" cols="50"></textarea><br>
+        <label for="score" th:name="score">Оцените продукт (от 1 до 5 звезд):</label><br>
+        <input type="number" id="score" name="score" min="1" max="5"><br>
+        <input type="hidden" name="product_id" th:value="${product.productId}">
+        <input type="submit" value="Отправить отзыв">
+    </form>
+    <br>
     <th:block th:each="review : ${product.getReviews()}" th:if="${!product.getReviews().isEmpty()}">
         <div class="author" th:text="${review.getUser().getFIO() + 'Оценка: ' + review.getScore()}"></div>
         <div class="content" th:text="${review.getReview()}"></div>

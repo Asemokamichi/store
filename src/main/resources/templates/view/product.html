@@ -43,6 +43,7 @@
             text-align: center;
             margin-top: 20px;
         }
+
         .item-list {
             text-align: center;
             margin-top: 20px;
@@ -88,7 +89,7 @@
 
         .sort-buttons button,
         .button,
-        form input[type="submit"]{
+        form input[type="submit"] {
             background-color: #bbcbd5;
             color: #203d4f;
             padding: 10px 20px;
@@ -100,7 +101,7 @@
 
         .sort-buttons button:hover,
         .button:hover,
-        form input[type="submit"]:hover{
+        form input[type="submit"]:hover {
             background-color: #5e849c;
             color: white;
         }
@@ -109,19 +110,27 @@
             width: 350px; /* Задайте фиксированную ширину в пикселях */
         }
 
-        .categoruName{
+        .categoruName {
             width: 150px;
         }
 
-        .cost{
+        .cost {
             width: 250px;
+        }
+
+        .selected-page {
+            background-color: #5e849c !important;
+            color: white !important;
         }
 
     </style>
 </head>
 <body>
 <div>
-    <div><a href="/cart" ><img src="/Users/asemalikova/Desktop/programs/store/src/main/resources/templates/icons/cart.png"></a></div>
+    <div><th:block th:text="${user.getFIO()}"></th:block></div>
+    <div><a href="/my_purchases">Мои покупки</a></div>
+        <div><a href="/cart"><img
+            src="/Users/asemalikova/Desktop/programs/store/src/main/resources/templates/icons/cart.png"></a></div>
 </div>
 <h1>Products</h1>
 <table>
@@ -172,7 +181,10 @@
     <ul class="pager">
         <th:block th:each="item : ${items}">
             <li class="pager-item">
-                <a th:href="@{/product(page=${item}-1)}" th:title="'На страницу номер ' + ${item}">[[${item}]]</a>
+                <a th:href="@{/product(page=${item}-1)}" th:title="'На страницу номер ' + ${item}"
+                   th:class="${page + 1 == item ? 'selected-page' : ''}">
+                    [[${item}]]
+                </a>
             </li>
         </th:block>
     </ul>

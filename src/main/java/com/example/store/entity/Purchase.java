@@ -17,6 +17,9 @@ public class Purchase {
     @Column(name = "date_beg")
     private LocalDate dateBeg;
 
+    @Column(name="address")
+    private String address;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -33,6 +36,22 @@ public class Purchase {
         this.status = status;
         this.dateBeg = dateBeg;
         this.orders = orders;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getPurchaseId() {

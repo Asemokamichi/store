@@ -155,9 +155,14 @@
                 <input type="submit" value="Delete">
             </form>
         </td>
-    </tr>
     </tbody>
+    <th:block>
+        <p>Total cost: <span th:text="${summ}"></span></p>
+    </th:block>
 </table>
+<form action="/cart/make_an_order" method="GET">
+    <input type="submit" value="make an order">
+</form>
 </body>
 </html>
 

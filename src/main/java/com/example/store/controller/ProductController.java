@@ -2,10 +2,8 @@ package com.example.store.controller;
 
 import com.example.store.entity.Category;
 import com.example.store.entity.Product;
-import com.example.store.service.CategoryService;
-import com.example.store.service.ProductCharacteristicService;
-import com.example.store.service.ProductService;
-import com.example.store.service.ReviewService;
+import com.example.store.entity.User;
+import com.example.store.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,6 +19,9 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CategoryService categoryService;
 
     @Autowired
@@ -28,6 +29,10 @@ public class ProductController {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private OrderService orderService;
+
 
     @GetMapping()
     public String products(@RequestParam(value = "page", required = false) Integer pageNumber, Model model) {
@@ -39,7 +44,10 @@ public class ProductController {
         int[] items = new int[productPage.getTotalPages()];
         for (int i = 0; i < items.length; i++) items[i] = i + 1;
 
+        User user = userService.getCurrentUser();
+
         model.addAttribute("products", products);
+        model.addAttribute("user", user);
         model.addAttribute("page", productPage.getNumber());
         model.addAttribute("items", items);
 
@@ -58,10 +66,16 @@ public class ProductController {
     public String detailsProduct(@RequestParam("product_id") Long product_id,
                                  Model model) {
         Product product = productService.findById(product_id);
+        User user = userService.getCurrentUser();
         Double avgScore = reviewService.findAverageScoreByProduct(product);
+        boolean checkOrder = orderService.findAllByUserAndProduct(user, product);
+        boolean checkReview = reviewService.findAllByProductAndUser(user, product);
 
         model.addAttribute("product", product);
+        model.addAttribute("user", user);
         if (avgScore != null) model.addAttribute("avgScore", avgScore);
+        if (checkOrder) model.addAttribute("checkReview", checkReview);
+
 
         return "view/details_product";
     }

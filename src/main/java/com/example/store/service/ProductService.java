@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class ProductService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Transactional
     public Page<Product> findAll(int pageNumber, int pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Product> productPage = productRepository.findAll(pageable);
@@ -34,18 +36,22 @@ public class ProductService {
         return productPage;
     }
 
+    @Transactional
     public List<Product> findAll(){
         return productRepository.findAll();
     }
 
+    @Transactional
     public Product findById(Long productID){
         return productRepository.findById(productID).orElseThrow();
     }
 
+    @Transactional
     public void deleteById(Long productID){
         productRepository.deleteById(productID);
     }
 
+    @Transactional
     public void save(Product product){
         productRepository.save(product);
     }

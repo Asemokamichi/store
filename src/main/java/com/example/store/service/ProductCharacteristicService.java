@@ -7,6 +7,7 @@ import com.example.store.repository.CharacteristicRepository;
 import com.example.store.repository.ProductCharacteristicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,14 +19,17 @@ public class ProductCharacteristicService {
     @Autowired
     private CharacteristicRepository characteristicRepository;
 
+    @Transactional
     public ProductCharacteristic findById(Long id){
         return productCharacteristicRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public void save(ProductCharacteristic productCharacteristic){
         productCharacteristicRepository.save(productCharacteristic);
     }
 
+    @Transactional
     public void saveAll(List<Long> characteristicIDList, List<String> characteristicValueList){
         if (characteristicIDList.size() == characteristicValueList.size() && !characteristicIDList.isEmpty()) {
             for (int i = 0; i < characteristicIDList.size(); i++) {
@@ -37,6 +41,7 @@ public class ProductCharacteristicService {
         }
     }
 
+    @Transactional
     public void saveAllByProduct(Product product, List<Long> characteristicIDList, List<String> characteristicValueList){
         if (characteristicIDList.size() == characteristicValueList.size() && !characteristicIDList.isEmpty()) {
             for (int i = 0; i < characteristicIDList.size(); i++) {
