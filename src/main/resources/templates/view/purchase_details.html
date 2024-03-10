@@ -119,8 +119,8 @@
         <div><a href="/cart">Корзина</a></div>
     </div>
 </div>
-<h1>Cart</h1>
-<table th:if="${!carts.isEmpty()}">
+<h1>Orders</h1>
+<table >
     <thead>
     <tr>
         <th>ID</th>
@@ -132,7 +132,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="cart : ${carts}">
+    <tr th:each="cart : ${}">
         <td th:text="${cart.product.productId}"></td>
         <td class="product_name">
             <a th:href="${'/product/details_product?product_id=' + cart.product.productId}">

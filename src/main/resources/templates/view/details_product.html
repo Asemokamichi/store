@@ -117,7 +117,7 @@
 </table>
 
 <h3 th:if="${!product.getProductCharacteristics().isEmpty()}">Характеристикa</h3>
-<table >
+<table>
     <tr th:each="characteristic : ${product.productCharacteristics}">
         <th><span th:text="${characteristic.characteristic.characteristicName}"></span>:</th>
         <td><span th:text="${characteristic.characteristicValue}"></span></td>

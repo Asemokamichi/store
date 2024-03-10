@@ -18,11 +18,11 @@
             padding: 8px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            width: 200px;
         }
 
         th {
             background-color: #0d466947;
+            width: 200px;
         }
 
         td:first-child,
@@ -35,18 +35,46 @@
             padding-right: 4px;
         }
 
-        .characteristic {
-            font-weight: bold;
+        .product-form {
+            width: 400px;
         }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 6px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: auto;
+            padding: 8px 16px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            background-color: #0d466947;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0d4669;
+        }
+
     </style>
 </head>
 <body>
 <h1>Addendum:</h1>
 <form action="/product/add_product/submit" method="POST">
-    <table>
+    <table class="product-form">
         <tr>
             <th>Name</th>
-            <td><input type="text" name="productName" placeholder="productName"></td>
+            <td><input type="text" name="productName" placeholder="Product Name"></td>
         </tr>
         <tr>
             <th>Category Name</th>
@@ -61,13 +89,12 @@
         </tr>
         <tr>
             <th>Cost</th>
-            <td><input type="text" name="cost" placeholder="cost"></td>
+            <td><input type="text" name="cost" placeholder="Cost"></td>
         </tr>
         <tr>
-            <td><input type="submit" value="Add"></td>
+            <td colspan="2"><input type="submit" value="Add"></td>
         </tr>
     </table>
 </form>
-
 </body>
 </html>

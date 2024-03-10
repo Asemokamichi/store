@@ -1,6 +1,7 @@
 package com.example.store.controller;
 
 import com.example.store.entity.Cart;
+import com.example.store.entity.User;
 import com.example.store.service.CartService;
 import com.example.store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,13 @@ public class CartController {
 
     @GetMapping
     public String allByProducts(Model model){
-        List<Cart> carts = cartService.allByProducts();
-        int summ = cartService.findSum(userService.getCurrentUser());
+        List<Cart> carts = cartService.findAllByUserOrderByCartId();
+        User user = userService.getUser();
+
+        int summ = cartService.findSum(user);
+
         model.addAttribute("carts", carts);
+        model.addAttribute("user", user);
         model.addAttribute("summ", summ);
 
         return "view/cart";

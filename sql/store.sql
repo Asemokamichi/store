@@ -94,6 +94,11 @@ create table reviews
     review     text
 );
 
+create table session(
+    session_id serial8 primary key ,
+    user_id int8 references  users(user_id)
+);
+
 
 insert into categories (category_name)
 values ('Электроника'),

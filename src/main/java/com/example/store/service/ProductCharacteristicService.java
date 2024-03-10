@@ -45,6 +45,8 @@ public class ProductCharacteristicService {
     public void saveAllByProduct(Product product, List<Long> characteristicIDList, List<String> characteristicValueList){
         if (characteristicIDList.size() == characteristicValueList.size() && !characteristicIDList.isEmpty()) {
             for (int i = 0; i < characteristicIDList.size(); i++) {
+                if (characteristicValueList.get(i).isEmpty()) continue;
+
                 ProductCharacteristic pc = new ProductCharacteristic();
                 Characteristic c = characteristicRepository.getReferenceById(characteristicIDList.get(i));
 

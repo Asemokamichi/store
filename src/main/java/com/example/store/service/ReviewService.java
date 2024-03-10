@@ -47,7 +47,7 @@ public class ReviewService {
     @Transactional
     public void  addReview(String reviewVal, int score, Long productID){
         Product product = productRepository.findById(productID).orElseThrow();
-        User user = userService.getCurrentUser();
+        User user = userService.getUser();
 
         Review review = new Review();
         review.setUser(user);

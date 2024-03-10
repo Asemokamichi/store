@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,7 +89,7 @@
 
         .sort-buttons button,
         .button,
-        form input[type="submit"] {
+        form input[type="submit"], .sign {
             background-color: #bbcbd5;
             color: #203d4f;
             padding: 10px 20px;
@@ -107,7 +107,7 @@
         }
 
         .name {
-            width: 350px; /* Задайте фиксированную ширину в пикселях */
+            width: 350px;
         }
 
         .categoruName {
@@ -123,14 +123,50 @@
             color: white !important;
         }
 
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 20px 0 20px;
+        }
+
+        .left-corner {
+            margin-right: auto;
+        }
+
+        .right-corner {
+            display: flex;
+        }
+
+        .right-corner > div {
+            margin-left: 10px;
+        }
+
+        .nav > .right-corner > div > a,
+        .nav > .left-corner > a,
+        .product_name > a {
+            text-decoration: none;
+            color: #0d3456;
+        }
+
     </style>
 </head>
 <body>
-<div>
-    <div><th:block th:text="${user.getFIO()}"></th:block></div>
-    <div><a href="/my_purchases">Мои покупки</a></div>
-        <div><a href="/cart"><img
-            src="/Users/asemalikova/Desktop/programs/store/src/main/resources/templates/icons/cart.png"></a></div>
+<div class="nav" th:if="${user!=null}">
+    <div class="left-corner"><a href="/product">Главная страница</a></div>
+    <div class="right-corner">
+        <div th:text="${user.getFIO()}"></div>
+        <div><a href="/purchases">Мои покупки</a></div>
+        <div><a href="/cart">Корзина</a></div>
+    </div>
+</div>
+
+<div class="nav" th:if="${user==null}">
+    <div class="left-corner"><a href="/product">Главная страница</a></div>
+    <div class="right-corner">
+        <div class="sign"><a href="/sign_in">Sign In</a></div>
+        <div class="sign"><a href="/sign_up">Sign Up</a></div>
+    </div>
 </div>
 <h1>Products</h1>
 <table>
@@ -147,17 +183,17 @@
     <tbody>
     <tr th:each="product : ${products}">
         <td th:text="${product.productId}"></td>
-        <td th:text="${product.productName}"></td>
+        <td class="product_name">
+            <a th:href="${'/product/details_product?product_id=' + product.productId}">
+                <th:block th:text="${product.productName}"></th:block>
+            </a></td>
         <td th:text="${product.category.categoryId}"></td>
         <td th:text="${product.category.categoryName}"></td>
         <td th:text="${product.cost}"></td>
         <td>
-            <form action="/product/details_product" method="GET">
-                <input type="hidden" name="product_id" th:value="${product.productId}">
-                <input type="submit" value="Details">
-            </form>
             <form action="/product/delete_product" method="POST">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
+                <input type="hidden" name="page" th:value="${page}">
                 <input type="submit" value="Delete">
             </form>
             <form action="/product/edit_product" method="POST">

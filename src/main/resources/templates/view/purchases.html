@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #203d4f;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0d466947;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        .name {
+            width: 350px;
+        }
+
+        .categoruName {
+            width: 150px;
+        }
+
+        .cost {
+            width: 250px;
+        }
+
+        input[type="submit"] {
+            background-color: #bbcbd5;
+            color: #203d4f;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 20px 0 20px;
+        }
+
+        .left-corner {
+            margin-right: auto;
+        }
+
+        .right-corner {
+            display: flex;
+        }
+
+        .right-corner > div {
+            margin-left: 10px;
+        }
+
+        .nav > .right-corner > div > a,
+        .nav > .left-corner > a ,
+        a {
+            text-decoration: none;
+            color: #0d3456;
+        }
+
+    </style>
+</head>
+<body>
+<div class="nav">
+    <div class="left-corner"><a href="/product">Главная страница</a></div>
+    <div class="right-corner">
+        <div th:text="${user.getFIO()}"></div>
+        <div><a href="/orders">Мои покупки</a></div>
+        <div><a href="/cart">Корзина</a></div>
+    </div>
+</div>
+
+<h1>Purchases</h1>
+<table th:if="${!purchases.isEmpty()}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th class="date">Date of purchase</th>
+        <th class="address">Address</th>
+        <th class="address">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="purchase : ${purchases}">
+        <td>
+            <a th:href="${'/purchases/details?purchase_id=' + purchase.purchaseId}">
+                <th:block th:text="${purchase.purchaseId}"></th:block>
+            </a>
+        </td>
+        <td th:text="${purchase.dateBeg}"></td>
+        <td th:text="${purchase.address}"></td>
+        <td th:text="${purchase.status}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${purchases.isEmpty()}">
+    Покупок нет!
+</div>
+</body>
+</html>

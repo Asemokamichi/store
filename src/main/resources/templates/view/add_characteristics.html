@@ -35,9 +35,22 @@
             padding-right: 4px;
         }
 
-        .characteristic {
-            font-weight: bold;
+        button[type="submit"] {
+            width: auto;
+            padding: 8px 16px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            background-color: #0d466947;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
+
+        button[type="submit"]:hover {
+            background-color: #0d4669;
+        }
+
     </style>
 </head>
 <body>
@@ -68,13 +81,16 @@
             <th><span th:text="${characteristic.getCharacteristicName()}"></span>:</th>
             <td>
                 <input type="text" name="characteristic_value" placeholder="characteristic_value">
+                <input type="hidden" name="characteristic_id" th:value="${characteristic.getCharacteristicId()}">
             </td>
-            <input type="hidden" name="characteristic_id" th:value="${characteristic.getCharacteristicId()}">
         </tr>
         <tr>
-            <input type="hidden" name="product_id" th:value="${product.getProductId()}">
-            <td><input type="submit" value="Edit"></td>
+            <td colspan="2">
+                <input type="hidden" name="product_id" th:value="${product.getProductId()}">
+                <button type="submit">Edit</button>
+            </td>
         </tr>
     </table>
+</form>
 </body>
 </html>

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Review {
     @Id
     @Column(name = "review_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long reviewId;
     @Column(name = "review")
     private String review;

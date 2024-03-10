@@ -7,6 +7,7 @@ import com.example.store.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,10 +45,14 @@ public class ProductController {
         int[] items = new int[productPage.getTotalPages()];
         for (int i = 0; i < items.length; i++) items[i] = i + 1;
 
-        User user = userService.getCurrentUser();
+        try {
+            User user = userService.getUser();
+            model.addAttribute("user", user);
+        } catch (Exception e) {
+            model.addAttribute("user", null);
+        }
 
         model.addAttribute("products", products);
-        model.addAttribute("user", user);
         model.addAttribute("page", productPage.getNumber());
         model.addAttribute("items", items);
 
@@ -59,23 +64,28 @@ public class ProductController {
                                 @RequestParam("page") int page,
                                 Model model) {
         productService.deleteById(productID);
-        return "redirect:/product";
+        return "redirect:/product?page=" + page;
     }
 
+    //    @Transactional
     @GetMapping("/details_product")
     public String detailsProduct(@RequestParam("product_id") Long product_id,
                                  Model model) {
         Product product = productService.findById(product_id);
-        User user = userService.getCurrentUser();
+        User user = userService.getUser();
+
+        if (user != null) {
+            boolean checkOrder = orderService.findAllByUserAndProduct(user, product);
+            if (checkOrder) {
+                boolean checkReview = reviewService.findAllByProductAndUser(user, product);
+                model.addAttribute("checkReview", checkReview);
+            }
+        }else model.addAttribute("checkReview", true);
+
         Double avgScore = reviewService.findAverageScoreByProduct(product);
-        boolean checkOrder = orderService.findAllByUserAndProduct(user, product);
-        boolean checkReview = reviewService.findAllByProductAndUser(user, product);
 
         model.addAttribute("product", product);
-        model.addAttribute("user", user);
         if (avgScore != null) model.addAttribute("avgScore", avgScore);
-        if (checkOrder) model.addAttribute("checkReview", checkReview);
-
 
         return "view/details_product";
     }

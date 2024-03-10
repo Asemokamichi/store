@@ -33,15 +33,15 @@ public class CartService {
     private PurchaseRepository purchaseRepository;
 
     @Transactional
-    public List<Cart> allByProducts() {
-        User user = userService.getCurrentUser();
-        return cartRepository.findAllByUser(user);
+    public List<Cart> findAllByUserOrderByCartId() {
+        User user = userService.getUser();
+        return cartRepository.findAllByUserOrderByCartId(user);
     }
 
     // Добавить товар в корзину.
     @Transactional
     public void addProductToCart(Long productID) {
-        User user = userService.getCurrentUser();
+        User user = userService.getUser();
         Product product = productRepository.findById(productID).orElseThrow();
         Cart cart = cartRepository.findAllByUserAndProduct(user, product);
         if (cart != null) {
@@ -58,8 +58,8 @@ public class CartService {
 
     @Transactional
     public void k(String address) {
-        User user = userService.getCurrentUser();
-        List<Cart> carts = cartRepository.findAllByUser(user);
+        User user = userService.getUser();
+        List<Cart> carts = cartRepository.findAllByUserOrderByCartId(user);
         Purchase purchase = new Purchase();
         purchase.setDateBeg(LocalDate.now());
         purchase.setAddress(address);
@@ -84,7 +84,7 @@ public class CartService {
     @Transactional
     public void increaseProductCount(long productId) {
         Product product = productRepository.findById(productId).orElseThrow();
-        User user = userService.getCurrentUser();
+        User user = userService.getUser();
         Cart cart = cartRepository.findAllByUserAndProduct(user, product);
         cart.setCount(cart.getCount() + 1);
 
@@ -95,7 +95,7 @@ public class CartService {
     @Transactional
     public void decreaseProductCount(long productId) {
         Product product = productRepository.findById(productId).orElseThrow();
-        User user = userService.getCurrentUser();
+        User user = userService.getUser();
         Cart cart = cartRepository.findAllByUserAndProduct(user, product);
         cart.setCount(cart.getCount() - 1);
 
