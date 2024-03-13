@@ -64,6 +64,7 @@ public class CartService {
         purchase.setDateBeg(LocalDate.now());
         purchase.setAddress(address);
         purchase.setUser(user);
+        purchase.setStatus(Status.CREATED);
 
         purchaseRepository.save(purchase);
 

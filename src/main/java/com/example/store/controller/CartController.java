@@ -21,11 +21,12 @@ public class CartController {
     private UserService userService;
 
     @GetMapping
-    public String allByProducts(Model model){
+    public String allByProducts(Model model) {
         List<Cart> carts = cartService.findAllByUserOrderByCartId();
         User user = userService.getUser();
 
-        int summ = cartService.findSum(user);
+        int summ = 0;
+        if (!carts.isEmpty()) summ = cartService.findSum(user);
 
         model.addAttribute("carts", carts);
         model.addAttribute("user", user);
@@ -35,25 +36,26 @@ public class CartController {
     }
 
     @GetMapping("/make_an_order")
-    public String make_an_order(){
+    public String make_an_order() {
         return "view/make_an_order";
     }
 
     @PostMapping("/submit")
-    public String submit(@RequestParam("address") String address){
+    public String submit(@RequestParam("address") String address) {
         cartService.k(address);
         return "redirect:/product";
     }
 
     @GetMapping("/into_a_basket")
-    public String addProductToCart(@RequestParam("product_id") Long productID){
+    public String addProductToCart(@RequestParam("product_id") Long productID,
+                                   @RequestParam("page") int page) {
         cartService.addProductToCart(productID);
 
-        return "redirect:/product";
+        return "redirect:/product?page=" + page;
     }
 
     @PostMapping("/increase_product_count")
-    public String increaseProductCount(@RequestParam("product_id") Long productID){
+    public String increaseProductCount(@RequestParam("product_id") Long productID) {
         cartService.increaseProductCount(productID);
 
         return "redirect:/cart";
@@ -61,7 +63,7 @@ public class CartController {
 
 
     @PostMapping("/decrease_product_count")
-    public String decreaseProductCount(@RequestParam("product_id") Long productID){
+    public String decreaseProductCount(@RequestParam("product_id") Long productID) {
         cartService.decreaseProductCount(productID);
 
         return "redirect:/cart";
@@ -69,7 +71,7 @@ public class CartController {
 
 
     @PostMapping("/delete_product")
-    public String deleteProduct(@RequestParam("product_id") Long productID){
+    public String deleteProduct(@RequestParam("product_id") Long productID) {
         cartService.deleteProduct(productID);
 
         return "redirect:/cart";

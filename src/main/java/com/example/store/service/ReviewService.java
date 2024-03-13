@@ -33,10 +33,15 @@ public class ReviewService {
     }
 
     @Transactional
-    public Double findAverageScoreByProduct(Product product) {
+    public List<Review> findAllByProductAndAccess(Product product, User user) {
+        return reviewRepository.findAllByProductAndAccess(product, user);
+    }
+
+    @Transactional
+    public float findAverageScoreByProduct(Product product) {
         Double avgScore = reviewRepository.findAverageScoreByProduct(product);
         if (avgScore == null) avgScore = 0.0;
-        return avgScore;
+        return (float) Math.round(avgScore * 100) / 100;
     }
 
     @Transactional
@@ -45,7 +50,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public void  addReview(String reviewVal, int score, Long productID){
+    public void addReview(String reviewVal, int score, Long productID, boolean flag) {
         Product product = productRepository.findById(productID).orElseThrow();
         User user = userService.getUser();
 
@@ -54,7 +59,29 @@ public class ReviewService {
         review.setProduct(product);
         review.setReview(reviewVal);
         review.setScore(score);
+        review.setAccess(flag);
 
         reviewRepository.save(review);
+    }
+
+    @Transactional
+    public void deleteById(Long reviewID) {
+        reviewRepository.deleteById(reviewID);
+    }
+
+    @Transactional
+    public void showReview(Long reviewID) {
+        Review review = reviewRepository.getReferenceById(reviewID);
+        review.setAccess(true);
+    }
+
+    @Transactional
+    public int findCountAllByAccess() {
+        return reviewRepository.findCountAllByAccess();
+    }
+
+    @Transactional
+    public List<Review> findAllByAccess() {
+        return reviewRepository.findAllByAccess(false);
     }
 }

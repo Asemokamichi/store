@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
+    <title>Orders</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,11 +38,19 @@
             display: inline-block;
         }
 
-        th, td {
-            padding: 8px;
+        .name {
+            width: 350px;
         }
 
-        button[type="submit"] {
+        .categoruName {
+            width: 150px;
+        }
+
+        .cost {
+            width: 250px;
+        }
+
+        input[type="submit"] {
             background-color: #bbcbd5;
             color: #203d4f;
             padding: 10px 20px;
@@ -51,43 +58,17 @@
             cursor: pointer;
             border-radius: 4px;
             text-decoration: none;
-            margin-right: 5px;
-        }
-
-        button[type="submit"]:hover,
-        input[type="submit"]:hover {
-            background-color: #5e849c;
-            color: white;
-        }
-
-        input[type="submit"] {
-            background-color: #bbcbd5;
-            color: #203d4f;
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-right: 5px;
-        }
-
-        .name, .category-name {
-            width: 250px;
-        }
-
-        .cost {
-            width: 150px;
         }
 
         .nav {
             display: flex;
-            justify-content: space-between; /* Distributes items evenly, with space between */
-            align-items: center; /* Aligns items vertically */
-            margin: 20px 20px 0 20px; /* Adjusted margin */
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 20px 0 20px;
         }
 
         .left-corner {
-            margin-right: auto; /* Pushes the left-corner to the left */
+            margin-right: auto;
         }
 
         .right-corner {
@@ -99,13 +80,10 @@
         }
 
         .nav > .right-corner > div > a,
-        .nav > .left-corner > a , a{
+        .nav > .left-corner > a,
+        a {
             text-decoration: none;
             color: #0d3456;
-        }
-
-        .count {
-            margin-right: 10px;
         }
 
         .no-items-message {
@@ -113,11 +91,10 @@
             text-align: center;
             font-size: 18px;
             color: #888;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 4px;
+            border: 1px solid #ccc; /* Добавляем рамку толщиной 1 пиксель и серого цвета */
+            padding: 10px; /* Добавляем небольшой отступ вокруг текста */
+            border-radius: 4px; /* Добавляем скругление углов для рамки */
         }
-
 
         #userOptions {
             position: absolute;
@@ -172,64 +149,39 @@
         </div>
     </div>
 </div>
-<h1>Cart</h1>
-<table th:if="${!carts.isEmpty()}">
+
+<h1>Purchases</h1>
+<table th:if="${!purchases.isEmpty()}">
     <thead>
     <tr>
         <th>ID</th>
-        <th class="name">Name</th>
-        <th class="category-name">Category Name</th>
-        <th class="cost">Cost</th>
-        <th>Count</th>
-        <th>Action</th>
+        <th class="date">Date of purchase</th>
+        <th class="address">Address</th>
+        <th class="address">Status</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="cart : ${carts}">
-        <td th:text="${cart.product.productId}"></td>
-        <td class="product_name">
-            <a th:href="${'/product/details_product?product_id=' + cart.product.productId}">
-                <th:block th:text="${cart.product.productName}"></th:block>
-            </a></td>
-        <td th:text="${cart.product.category.categoryName}"></td>
-        <td th:text="${cart.product.cost}"></td>
+    <tr th:each="purchase : ${purchases}">
         <td>
-            <span class="count" th:text="${cart.count}"></span>
-            <form action="/cart/increase_product_count" method="POST">
-                <input type="hidden" name="product_id" th:value="${cart.product.productId}">
-                <input type="submit" value="+">
-            </form>
-            <form action="/cart/decrease_product_count" method="POST">
-                <input type="hidden" name="product_id" th:value="${cart.product.productId}">
-                <input type="submit" value="-">
+            <a th:href="${'/purchases/details?purchase_id=' + purchase.purchaseId}">
+                <th:block th:text="${purchase.purchaseId}"></th:block>
+            </a>
+        </td>
+        <td th:text="${purchase.dateBeg}"></td>
+        <td th:text="${purchase.address}"></td>
+        <td>
+            <th:block th:text="${purchase.status}"></th:block>
+            <form action="/moderation/purchases/next" method="post">
+                <input type="hidden" name="purchase_id" th:value="${purchase.purchaseId}">
+                <button type="submit">next</button>
             </form>
         </td>
-        <td>
-            <form action="/cart/delete_product" method="POST">
-                <input type="hidden" name="product_id" th:value="${cart.product.productId}">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td><p>Total cost: <span th:text="${summ}"></span></p></td>
     </tr>
     </tbody>
-
-    <tr>
-        <td>
-            <form action="/cart/make_an_order" method="GET">
-                <button type="submit">Make an order</button>
-            </form>
-        </td>
-    </tr>
 </table>
 
-<div th:if="${carts.isEmpty()}" class="no-items-message">
-    Товара нет!
+<div th:if="${purchases.isEmpty()}" class="no-items-message">
+    Покупок нет!
 </div>
-
 </body>
 </html>
-
-

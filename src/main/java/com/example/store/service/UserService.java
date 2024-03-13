@@ -15,19 +15,26 @@ public class UserService {
     private User user;
 
 
-    @Transactional
-    public User getUser() {
-        return userRepository.findById(2L).orElse(null);
-    }
-
-    @Transactional
-    public void getUserByEmailAndPassword(String email, String password){
-        user =  userRepository.getUserByEmailAndPassword(email, password);
-    }
-
+//    @Transactional
 //    public User getUser() {
-//        return user;
+//        return userRepository.findById(3L).orElse(null);
 //    }
+
+    @Transactional
+    public void getUserByEmailAndPassword(String email, String password) {
+        user = userRepository.getUserByEmailAndPassword(email, password);
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void logout(){
+        user = null;
+    }
+
+
 }
 
 

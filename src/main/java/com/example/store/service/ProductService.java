@@ -43,7 +43,7 @@ public class ProductService {
 
     @Transactional
     public Product findById(Long productID){
-        return productRepository.findById(productID).orElseThrow();
+        return productRepository.findById(productID).orElse(null);
     }
 
     @Transactional

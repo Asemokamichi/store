@@ -2,6 +2,7 @@ package com.example.store.controller;
 
 import com.example.store.entity.Category;
 import com.example.store.entity.Product;
+import com.example.store.entity.Review;
 import com.example.store.entity.User;
 import com.example.store.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,12 @@ public class ProductController {
         if (pageNumber == null) pageNumber = 0;
 
         Page<Product> productPage = productService.findAll(pageNumber, 5);
+        if (productPage.getTotalPages()<pageNumber) {
+            productPage = productService.findAll(productPage.getTotalPages(), 5);
+        }
+
         List<Product> products = productPage.getContent();
+
 
         int[] items = new int[productPage.getTotalPages()];
         for (int i = 0; i < items.length; i++) items[i] = i + 1;
@@ -63,7 +69,8 @@ public class ProductController {
     public String deleteProduct(@RequestParam("product_id") Long productID,
                                 @RequestParam("page") int page,
                                 Model model) {
-        productService.deleteById(productID);
+        if (userService.getUser().getRole()==2) productService.deleteById(productID);
+
         return "redirect:/product?page=" + page;
     }
 
@@ -82,16 +89,21 @@ public class ProductController {
             }
         }else model.addAttribute("checkReview", true);
 
-        Double avgScore = reviewService.findAverageScoreByProduct(product);
+        List<Review> reviews = reviewService.findAllByProductAndAccess(product, user);
+        float avgScore = reviewService.findAverageScoreByProduct(product);
 
         model.addAttribute("product", product);
-        if (avgScore != null) model.addAttribute("avgScore", avgScore);
+        model.addAttribute("user", user);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("avgScore", avgScore);
 
         return "view/details_product";
     }
 
     @PostMapping("/edit_product")
     public String editProduct(@RequestParam("product_id") Long product_id, Model model) {
+        if (userService.getUser().getRole()!=2) return "redirect:/product";
+
         Product product = productService.findById(product_id);
         List<Category> categories = categoryService.findAll();
 
@@ -109,6 +121,8 @@ public class ProductController {
             @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
             @RequestParam(value = "characteristic_value") List<String> characteristicValueList
     ) {
+        if (userService.getUser().getRole()!=2) return "redirect:/product";
+
         Product product = new Product();
 
         if (product_id != null) product = productService.findById(product_id);
@@ -126,6 +140,8 @@ public class ProductController {
 
     @GetMapping("/add_product")
     public String addProduct(Model model) {
+        if (userService.getUser().getRole()!=2) return "redirect:/product";
+
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
 
@@ -139,6 +155,8 @@ public class ProductController {
             @RequestParam(value = "cost", required = false) Long cost,
             Model model
     ) {
+        if (userService.getUser().getRole()!=2) return "redirect:/product";
+
         Product product = new Product();
 
         if (productName != "") product.setProductName(productName);
@@ -162,6 +180,8 @@ public class ProductController {
             @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
             @RequestParam(value = "characteristic_value") List<String> characteristicValueList
     ) {
+        if (userService.getUser().getRole()!=2) return "redirect:/product";
+
         Product product = productService.findById(productID);
         productCharacteristicService.saveAllByProduct(product, characteristicIDList, characteristicValueList);
 

@@ -60,7 +60,7 @@
             color: #020a0fa6;
         }
 
-        .characteristic{
+        .characteristic {
             text-align: center;
         }
 
@@ -97,9 +97,121 @@
             background-color: #0d3456;
         }
 
+        #userOptions {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+
+        #userOptions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #userOptions ul li {
+            margin-bottom: 5px;
+        }
+
+        #userOptions ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        #userOptions ul li a:hover {
+            color: #5e849c;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between; /* Distributes items evenly, with space between */
+            align-items: center; /* Aligns items vertically */
+            margin: 20px 20px 0 20px; /* Adjusted margin */
+        }
+
+        .left-corner {
+            margin-right: auto; /* Pushes the left-corner to the left */
+        }
+
+        .right-corner {
+            display: flex;
+        }
+
+        .right-corner > div {
+            margin-left: 10px;
+        }
+
+        .nav > .right-corner > div > a,
+        .nav > .left-corner > a, a {
+            text-decoration: none;
+            color: #0d3456;
+        }
+
+        .count {
+            margin-right: 10px;
+        }
+
+        .no-items-message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .review {
+            margin-bottom: 20px;
+            position: relative; /* Чтобы псевдоэлементы были позиционированы относительно этого блока */
+        }
+
+        .score {
+            position: absolute; /* Позиционируем абсолютно */
+            top: 0; /* Положение сверху */
+            right: -20px; /* Отступ справа */
+            width: 20px; /* Ширина круга */
+            height: 20px; /* Высота круга */
+            border-radius: 50%; /* Делаем круглым */
+            background-color: red; /* Красный цвет */
+            color: white; /* Белый цвет текста */
+            display: flex; /* Делаем содержимое центральным */
+            justify-content: center; /* Выравниваем содержимое по центру по горизонтали */
+            align-items: center; /* Выравниваем содержимое по центру по вертикали */
+        }
+
+        .content {
+            margin-left: 25px; /* Отступ с левой стороны */
+        }
+
     </style>
+    <script>
+        function toggleUserOptions() {
+            var userOptions = document.getElementById("userOptions");
+            userOptions.style.display = userOptions.style.display === "none" ? "block" : "none";
+        }
+    </script>
 </head>
 <body>
+<div class="nav" th:if="${user!=null}">
+    <div class="left-corner"><a href="/product">Главная страница</a></div>
+    <div class="right-corner">
+        <div>
+            <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
+            <div id="userOptions" style="display: none;">
+                <ul>
+                    <li><a href="/purchases">Мои покупки</a></li>
+                    <li><a href="/cart">Корзина</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <h1>Description:</h1>
 <table>
     <tr>
@@ -132,12 +244,15 @@
         <label for="score" th:name="score">Оцените продукт (от 1 до 5 звезд):</label><br>
         <input type="number" id="score" name="score" min="1" max="5"><br>
         <input type="hidden" name="product_id" th:value="${product.productId}">
+        <input type="checkbox" id="public" name="public" value="public">
+        <label for="public">Публично отобразить оценку</label><br>
         <input type="submit" value="Отправить отзыв">
     </form>
+
     <br>
-    <th:block th:each="review : ${product.getReviews()}" th:if="${!product.getReviews().isEmpty()}">
-        <div class="author" th:text="${review.getUser().getFIO() + 'Оценка: ' + review.getScore()}"></div>
-        <div class="content" th:text="${review.getReview()}"></div>
+    <th:block th:each="review : ${reviews}" th:if="${!reviews.isEmpty()}">
+            <div class="author" th:text="${review.getUser().getFIO() + 'Оценка: ' + review.getScore()}"></div>
+            <div class="content" th:text="${review.getReview()}"></div>
     </th:block>
     <p th:if="${avgScore!=null}">Средняя оценка: <span th:text="${avgScore}"></span> звезд</p>
 </div>

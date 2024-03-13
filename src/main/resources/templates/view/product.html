@@ -149,17 +149,73 @@
             color: #0d3456;
         }
 
+        .no-items-message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+
+
+        #userOptions {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+
+        #userOptions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #userOptions ul li {
+            margin-bottom: 5px;
+        }
+
+        #userOptions ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        #userOptions ul li a:hover {
+            color: #5e849c;
+        }
+
     </style>
+    <script>
+        function toggleUserOptions() {
+            var userOptions = document.getElementById("userOptions");
+            userOptions.style.display = userOptions.style.display === "none" ? "block" : "none";
+        }
+    </script>
 </head>
 <body>
 <div class="nav" th:if="${user!=null}">
     <div class="left-corner"><a href="/product">Главная страница</a></div>
     <div class="right-corner">
-        <div th:text="${user.getFIO()}"></div>
-        <div><a href="/purchases">Мои покупки</a></div>
-        <div><a href="/cart">Корзина</a></div>
+        <div>
+            <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
+            <div id="userOptions" style="display: none;">
+                <ul>
+                    <li th:if="${user.role == 2}"><a href="/moderation" >Модерация</a></li>
+                    <li><a href="/purchases">Мои покупки</a></li>
+                    <li><a href="/cart">Корзина</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <div class="nav" th:if="${user==null}">
     <div class="left-corner"><a href="/product">Главная страница</a></div>
@@ -169,7 +225,7 @@
     </div>
 </div>
 <h1>Products</h1>
-<table>
+<table th:if="${!products.isEmpty()}">
     <thead>
     <tr>
         <th>ID</th>
@@ -191,17 +247,18 @@
         <td th:text="${product.category.categoryName}"></td>
         <td th:text="${product.cost}"></td>
         <td>
-            <form action="/product/delete_product" method="POST">
+            <form action="/product/delete_product" method="POST" th:if="${user!=null && user.role == 2}">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
                 <input type="hidden" name="page" th:value="${page}">
                 <input type="submit" value="Delete">
             </form>
-            <form action="/product/edit_product" method="POST">
+            <form action="/product/edit_product" method="POST" th:if="${user!=null && user.role == 2}">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
                 <input type="submit" value="Edit">
             </form>
             <form action="/cart/into_a_basket" method="GET">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
+                <input type="hidden" name="page" th:value="${page}">
                 <input type="submit" value="into a basket">
             </form>
         </td>
@@ -209,7 +266,11 @@
     </tbody>
 </table>
 
-<div class="center">
+<div th:if="${products.isEmpty()}" class="no-items-message">
+    Товара нет!
+</div>
+
+<div class="center" th:if="${user!=null && user.role == 2}">
     <a href="/product/add_product" class="button">Добавить новый продукт</a>
 </div>
 

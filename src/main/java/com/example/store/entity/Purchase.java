@@ -12,8 +12,9 @@ public class Purchase {
     @Column(name = "purchase_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long purchaseId;
+    @Enumerated
     @Column(name = "status")
-    private int status;
+    private Status status;
     @Column(name = "date_beg")
     private LocalDate dateBeg;
 
@@ -33,7 +34,7 @@ public class Purchase {
 
     public Purchase(long purchaseId, int status, LocalDate dateBeg, List<Order> orders) {
         this.purchaseId = purchaseId;
-        this.status = status;
+        this.status = Status.values()[status];
         this.dateBeg = dateBeg;
         this.orders = orders;
     }
@@ -62,11 +63,11 @@ public class Purchase {
         this.purchaseId = purchaseId;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

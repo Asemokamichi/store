@@ -48,4 +48,11 @@ public class UserController {
 
         return "redirect:/product";
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        userService.logout();
+        return "redirect:/product";
+    }
+
 }

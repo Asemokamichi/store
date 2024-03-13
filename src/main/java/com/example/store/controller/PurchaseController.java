@@ -1,7 +1,9 @@
 package com.example.store.controller;
 
+import com.example.store.entity.Order;
 import com.example.store.entity.Purchase;
 import com.example.store.entity.User;
+import com.example.store.service.OrderService;
 import com.example.store.service.PurchaseService;
 import com.example.store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping("/purchases")
     public String purchases(Model model) {
         User user = userService.getUser();
@@ -35,10 +40,13 @@ public class PurchaseController {
     public String orders(@RequestParam("purchase_id") Long purchaseID,
                          Model model) {
         User user = userService.getUser();
-        Purchase purchase = purchaseService.findByPurchaseId(purchaseID);
+        List<Order> orders = orderService.findAllByPurchasePurchaseId(purchaseID);
+        int summ = 0;
+        if (!orders.isEmpty()) summ = orderService.findSum(purchaseID);
 
-        model.addAttribute("purchase", purchase);
+        model.addAttribute("orders", orders);
         model.addAttribute("user", user);
+        model.addAttribute("summ", summ);
 
         return "view/purchase_details";
     }

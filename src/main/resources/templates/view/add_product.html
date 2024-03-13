@@ -66,9 +66,98 @@
             background-color: #0d4669;
         }
 
+        #userOptions {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+
+        #userOptions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #userOptions ul li {
+            margin-bottom: 5px;
+        }
+
+        #userOptions ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        #userOptions ul li a:hover {
+            color: #5e849c;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between; /* Distributes items evenly, with space between */
+            align-items: center; /* Aligns items vertically */
+            margin: 20px 20px 0 20px; /* Adjusted margin */
+        }
+
+        .left-corner {
+            margin-right: auto; /* Pushes the left-corner to the left */
+        }
+
+        .right-corner {
+            display: flex;
+        }
+
+        .right-corner > div {
+            margin-left: 10px;
+        }
+
+        .nav > .right-corner > div > a,
+        .nav > .left-corner > a, a {
+            text-decoration: none;
+            color: #0d3456;
+        }
+
+        .count {
+            margin-right: 10px;
+        }
+
+        .no-items-message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
     </style>
+    <script>
+        function toggleUserOptions() {
+            var userOptions = document.getElementById("userOptions");
+            userOptions.style.display = userOptions.style.display === "none" ? "block" : "none";
+        }
+    </script>
 </head>
 <body>
+<div class="nav" th:if="${user!=null}">
+    <div class="left-corner"><a href="/product">Главная страница</a></div>
+    <div class="right-corner">
+        <div>
+            <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
+            <div id="userOptions" style="display: none;">
+                <ul>
+                    <li><a href="/purchases">Мои покупки</a></li>
+                    <li><a href="/cart">Корзина</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <h1>Addendum:</h1>
 <form action="/product/add_product/submit" method="POST">
     <table class="product-form">

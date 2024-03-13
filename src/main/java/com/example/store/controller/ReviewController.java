@@ -14,11 +14,10 @@ public class ReviewController {
     @PostMapping("/addReview")
     public String addReview(@RequestParam("review") String review,
                             @RequestParam("score") int score,
-                            @RequestParam("product_id") Long productID){
-        System.out.println(review);
-        System.out.println(score);
-        System.out.println(productID);
-        reviewService.addReview(review, score, productID);
+                            @RequestParam("product_id") Long productID,
+                            @RequestParam(value = "public", required = false) String publicValue) {
+        boolean flag = publicValue != null;
+        reviewService.addReview(review, score, productID, flag);
 
         return "redirect:/product/details_product?product_id=" + productID;
     }

@@ -14,6 +14,9 @@ public class Review {
     @Column(name = "score")
     private int score;
 
+    @Column(name = "access")
+    private boolean access;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -22,6 +25,14 @@ public class Review {
     private Product product;
 
     public Review() {
+    }
+
+    public boolean isAccess() {
+        return access;
+    }
+
+    public void setAccess(boolean access) {
+        this.access = access;
     }
 
     public long getReviewId() {

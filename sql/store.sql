@@ -4,10 +4,6 @@ drop table if exists characteristics;
 
 drop table if exists carts;
 
-drop table if exists orders;
-
-drop table if exists purchases;
-
 drop table if exists reviews;
 
 drop table if exists products;
@@ -66,15 +62,16 @@ create table carts
 );
 
 
-
 create table purchases
 (
     purchase_id serial8 primary key,
     user_id     int8 references users (user_id),
-    status      int2 default 1,
+    status   int2 not null default 0,
     date_beg    date default now(),
     address     text
 );
+
+
 
 create table orders
 (
@@ -91,13 +88,16 @@ create table reviews
     user_id    int8 references users (user_id) on delete cascade,
     product_id int8 references products (product_id) on delete cascade,
     score      int2 default 5,
-    review     text
+    review     text,
+    access     bool default true
 );
 
-create table session(
-    session_id serial8 primary key ,
-    user_id int8 references  users(user_id)
-);
+-- create table session
+-- (
+--     session_id serial8 primary key,
+--     user_id    int8 references users (user_id)
+-- );
+
 
 
 insert into categories (category_name)
@@ -239,26 +239,5 @@ values (13, 7, '24 мегапикселя'),
        (16, 12, 'Спортивный'),
        (17, 13, 'Wiley'),
        (17, 14, 'JavaScript');
-
-
-select *
-from carts
-where product_id = 3;
-
-
-select count(*)
-from orders
-join purchases p on p.purchase_id = orders.purchase_id
-where p.user_id = 1 and product_id = 10;
-
-
-
-select count(*)
-from reviews
-where user_id = 1 and product_id = 10;
-
-
-
-
 
 

@@ -99,7 +99,7 @@
         }
 
         .nav > .right-corner > div > a,
-        .nav > .left-corner > a {
+        .nav > .left-corner > a , a{
             text-decoration: none;
             color: #0d3456;
         }
@@ -108,19 +108,71 @@
             margin-right: 10px;
         }
 
+        .no-items-message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+            border: 1px solid #ccc; /* Добавляем рамку толщиной 1 пиксель и серого цвета */
+            padding: 10px; /* Добавляем небольшой отступ вокруг текста */
+            border-radius: 4px; /* Добавляем скругление углов для рамки */
+        }
+
+        #userOptions {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+
+        #userOptions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #userOptions ul li {
+            margin-bottom: 5px;
+        }
+
+        #userOptions ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        #userOptions ul li a:hover {
+            color: #5e849c;
+        }
+
     </style>
+    <script>
+        function toggleUserOptions() {
+            var userOptions = document.getElementById("userOptions");
+            userOptions.style.display = userOptions.style.display === "none" ? "block" : "none";
+        }
+    </script>
 </head>
 <body>
-<div class="nav">
+<div class="nav" th:if="${user!=null}">
     <div class="left-corner"><a href="/product">Главная страница</a></div>
     <div class="right-corner">
-        <div th:text="${user.getFIO()}"></div>
-        <div><a href="/orders">Мои покупки</a></div>
-        <div><a href="/cart">Корзина</a></div>
+        <div>
+            <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
+            <div id="userOptions" style="display: none;">
+                <ul>
+                    <li><a href="/purchases">Мои покупки</a></li>
+                    <li><a href="/cart">Корзина</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 <h1>Orders</h1>
-<table >
+<table th:if="${!orders.isEmpty()}">
     <thead>
     <tr>
         <th>ID</th>
@@ -128,52 +180,27 @@
         <th class="category-name">Category Name</th>
         <th class="cost">Cost</th>
         <th>Count</th>
-        <th>Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="cart : ${}">
-        <td th:text="${cart.product.productId}"></td>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.product.productId}"></td>
         <td class="product_name">
-            <a th:href="${'/product/details_product?product_id=' + cart.product.productId}">
-                <th:block th:text="${cart.product.productName}"></th:block>
+            <a th:href="${'/product/details_product?product_id=' + order.product.productId}">
+                <th:block th:text="${order.product.productName}"></th:block>
             </a></td>
-        <td th:text="${cart.product.category.categoryName}"></td>
-        <td th:text="${cart.product.cost}"></td>
-        <td>
-            <span class="count" th:text="${cart.count}"></span>
-            <form action="/cart/increase_product_count" method="POST">
-                <input type="hidden" name="product_id" th:value="${cart.product.productId}">
-                <input type="submit" value="+">
-            </form>
-            <form action="/cart/decrease_product_count" method="POST">
-                <input type="hidden" name="product_id" th:value="${cart.product.productId}">
-                <input type="submit" value="-">
-            </form>
-        </td>
-        <td>
-            <form action="/cart/delete_product" method="POST">
-                <input type="hidden" name="product_id" th:value="${cart.product.productId}">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
+        <td th:text="${order.product.category.categoryName}"></td>
+        <td th:text="${order.product.cost}"></td>
+        <td th:text="${order.count}"></td>
     </tr>
     <tr>
         <td><p>Total cost: <span th:text="${summ}"></span></p></td>
     </tr>
     </tbody>
-
-    <tr>
-        <td>
-            <form action="/cart/make_an_order" method="GET">
-                <button type="submit">Make an order</button>
-            </form>
-        </td>
-    </tr>
 </table>
 
-<div th:if="${carts.isEmpty()}">
-    Товара нет!
+<div th:if="${orders.isEmpty()}" class="no-items-message">
+    Информация была удалена!
 </div>
 </body>
 </html>

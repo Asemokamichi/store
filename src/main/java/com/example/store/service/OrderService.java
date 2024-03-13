@@ -7,6 +7,7 @@ import com.example.store.entity.User;
 import com.example.store.repository.OrderRepository;
 import com.example.store.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +22,18 @@ public class OrderService {
     private UserService userService;
 
     @Transactional
-    public List<Order> findAllByPurchaseUser(){
-        User user = userService.getUser();
-        return orderRepository.findAllByPurchaseUser(user);
+    public List<Order> findAllByPurchasePurchaseId(Long id){
+        return orderRepository.findAllByPurchasePurchaseId(id);
     }
 
     @Transactional
     public boolean findAllByUserAndProduct(User user, Product product){
-
         return orderRepository.findAllByPurchaseUserAndProduct(user, product) != 0;
+    }
+
+    @Transactional
+    public int findSum(Long purchaseID){
+        return orderRepository.findSum(purchaseID);
     }
 
 
