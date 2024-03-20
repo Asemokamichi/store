@@ -1,18 +1,20 @@
 package com.example.store.entity;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Component
 public class User {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
     @Column(name = "role")
-    private int role;
+    private UserRole role;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
@@ -34,7 +36,7 @@ public class User {
     public User() {
     }
 
-    public User(long userId, int role, String email, String password, String userName, String userSurname, List<Cart> carts, List<Review> reviews) {
+    public User(long userId, UserRole role, String email, String password, String userName, String userSurname, List<Cart> carts, List<Review> reviews) {
         this.userId = userId;
         this.role = role;
         this.email = email;
@@ -57,11 +59,11 @@ public class User {
         this.userId = userId;
     }
 
-    public int getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

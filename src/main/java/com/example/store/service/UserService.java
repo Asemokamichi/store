@@ -25,6 +25,12 @@ public class UserService {
         user = userRepository.getUserByEmailAndPassword(email, password);
     }
 
+    @Transactional
+    public User getByEmail(String email){
+        User user = userRepository.getByEmail(email);
+        return user;
+    }
+
 
     public User getUser() {
         return user;

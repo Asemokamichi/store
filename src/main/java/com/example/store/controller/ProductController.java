@@ -69,8 +69,6 @@ public class ProductController {
     public String deleteProduct(@RequestParam("product_id") Long productID,
                                 @RequestParam("page") int page,
                                 Model model) {
-        if (userService.getUser().getRole()==2) productService.deleteById(productID);
-
         return "redirect:/product?page=" + page;
     }
 
@@ -102,8 +100,6 @@ public class ProductController {
 
     @PostMapping("/edit_product")
     public String editProduct(@RequestParam("product_id") Long product_id, Model model) {
-        if (userService.getUser().getRole()!=2) return "redirect:/product";
-
         Product product = productService.findById(product_id);
         List<Category> categories = categoryService.findAll();
 
@@ -121,8 +117,6 @@ public class ProductController {
             @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
             @RequestParam(value = "characteristic_value") List<String> characteristicValueList
     ) {
-        if (userService.getUser().getRole()!=2) return "redirect:/product";
-
         Product product = new Product();
 
         if (product_id != null) product = productService.findById(product_id);
@@ -140,8 +134,6 @@ public class ProductController {
 
     @GetMapping("/add_product")
     public String addProduct(Model model) {
-        if (userService.getUser().getRole()!=2) return "redirect:/product";
-
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
 
@@ -155,8 +147,6 @@ public class ProductController {
             @RequestParam(value = "cost", required = false) Long cost,
             Model model
     ) {
-        if (userService.getUser().getRole()!=2) return "redirect:/product";
-
         Product product = new Product();
 
         if (productName != "") product.setProductName(productName);
@@ -180,8 +170,6 @@ public class ProductController {
             @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
             @RequestParam(value = "characteristic_value") List<String> characteristicValueList
     ) {
-        if (userService.getUser().getRole()!=2) return "redirect:/product";
-
         Product product = productService.findById(productID);
         productCharacteristicService.saveAllByProduct(product, characteristicIDList, characteristicValueList);
 

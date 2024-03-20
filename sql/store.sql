@@ -46,7 +46,7 @@ create table product_characteristic
 create table users
 (
     user_id      serial8 primary key,
-    role         int2        not null,
+    role         varchar        not null,
     email        varchar(50) not null,
     password     varchar(20) not null,
     user_name    varchar(20) not null,

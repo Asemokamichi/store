@@ -41,18 +41,18 @@ public class UserController {
         return "view/sign_in";
     }
 
-    @PostMapping("/sign_in")
-    public String signInPost(@RequestParam("email") String email,
-                             @RequestParam("password") String password) {
-        userService.getUserByEmailAndPassword(email, password);
-
-        return "redirect:/product";
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        userService.logout();
-        return "redirect:/product";
-    }
+//    @PostMapping("/sign_in")
+//    public String signInPost(@RequestParam("email") String email,
+//                             @RequestParam("password") String password) {
+//        userService.getUserByEmailAndPassword(email, password);
+//
+//        return "redirect:/product";
+//    }
+//
+//    @GetMapping("/logout")
+//    public String logout() {
+//        userService.logout();
+//        return "redirect:/product";
+//    }
 
 }
