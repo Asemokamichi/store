@@ -3,6 +3,9 @@ package com.example.store.service;
 import com.example.store.entity.User;
 import com.example.store.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,12 +16,6 @@ public class UserService {
     private UserRepository userRepository;
 
     private User user;
-
-
-//    @Transactional
-//    public User getUser() {
-//        return userRepository.findById(3L).orElse(null);
-//    }
 
     @Transactional
     public void getUserByEmailAndPassword(String email, String password) {
@@ -33,13 +30,16 @@ public class UserService {
 
 
     public User getUser() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        User user = userRepository.getByEmail( authentication.getName());
         return user;
     }
 
-    public void logout(){
-        user = null;
+    @Transactional
+    public void save(User user){
+        userRepository.save(user);
     }
-
 
 }
 

@@ -4,6 +4,10 @@ drop table if exists characteristics;
 
 drop table if exists carts;
 
+drop table if exists orders;
+
+drop table if exists purchases;
+
 drop table if exists reviews;
 
 drop table if exists products;
@@ -11,6 +15,7 @@ drop table if exists products;
 drop table if exists categories;
 
 drop table if exists users;
+
 
 create table categories
 (
@@ -47,10 +52,10 @@ create table users
 (
     user_id      serial8 primary key,
     role         varchar        not null,
-    email        varchar(50) not null,
-    password     varchar(20) not null,
-    user_name    varchar(20) not null,
-    user_surname varchar(30) not null
+    email        varchar not null,
+    password     varchar not null,
+    user_name    varchar not null,
+    user_surname varchar not null
 );
 
 create table carts
@@ -136,10 +141,10 @@ values (1, 1, 'Samsung'),
        (6, 5, 'Лутц М.');
 
 
-insert into users (role, email, password, user_name, user_surname)
-values (1, 'user1@gmail.com', 'password1', 'John', 'Doe'),
-       (2, 'user2@gmail.com', 'password2', 'Jane', 'Smith'),
-       (1, 'user3@gmail.com', 'password3', 'Alice', 'Johnson');
+-- insert into users (role, email, password, user_name, user_surname)
+-- values (0, 'user1@gmail.com', 'password1', 'John', 'Doe'),
+--        (1, 'user2@gmail.com', 'password2', 'Jane', 'Smith'),
+--        (0, 'user3@gmail.com', 'password3', 'Alice', 'Johnson');
 
 
 insert into carts (user_id, product_id, count)

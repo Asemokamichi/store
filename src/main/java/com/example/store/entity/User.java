@@ -13,6 +13,8 @@ public class User {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
+
+    @Enumerated
     @Column(name = "role")
     private UserRole role;
     @Column(name = "email")

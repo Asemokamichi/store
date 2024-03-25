@@ -16,17 +16,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.util.Collection;
 
 @Service
-//@EnableWebMvc
-//@ComponentScan("com.example.store")
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("before");
         User user = userService.getByEmail(username);
-        System.out.println("after");
         if (user == null){
             throw new UsernameNotFoundException("Usern not found");
         }

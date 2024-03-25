@@ -71,7 +71,7 @@ public class ReviewService {
 
     @Transactional
     public void showReview(Long reviewID) {
-        Review review = reviewRepository.getReferenceById(reviewID);
+        Review review = reviewRepository.findById(reviewID).orElseThrow();
         review.setAccess(true);
     }
 

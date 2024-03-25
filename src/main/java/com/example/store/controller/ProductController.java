@@ -42,7 +42,7 @@ public class ProductController {
 
         Page<Product> productPage = productService.findAll(pageNumber, 5);
         if (productPage.getTotalPages()<pageNumber) {
-            productPage = productService.findAll(productPage.getTotalPages(), 5);
+            productPage = productService.findAll(productPage.getTotalPages()-1, 5);
         }
 
         List<Product> products = productPage.getContent();
@@ -69,6 +69,8 @@ public class ProductController {
     public String deleteProduct(@RequestParam("product_id") Long productID,
                                 @RequestParam("page") int page,
                                 Model model) {
+        productService.deleteById(productID);
+
         return "redirect:/product?page=" + page;
     }
 
@@ -78,9 +80,10 @@ public class ProductController {
                                  Model model) {
         Product product = productService.findById(product_id);
         User user = userService.getUser();
+        boolean checkOrder = false;
 
         if (user != null) {
-            boolean checkOrder = orderService.findAllByUserAndProduct(user, product);
+             checkOrder = orderService.findAllByUserAndProduct(user, product);
             if (checkOrder) {
                 boolean checkReview = reviewService.findAllByProductAndUser(user, product);
                 model.addAttribute("checkReview", checkReview);
@@ -94,6 +97,7 @@ public class ProductController {
         model.addAttribute("user", user);
         model.addAttribute("reviews", reviews);
         model.addAttribute("avgScore", avgScore);
+        model.addAttribute("checkOrder", checkOrder);
 
         return "view/details_product";
     }

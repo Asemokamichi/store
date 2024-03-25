@@ -160,7 +160,6 @@
         }
 
 
-
         #userOptions {
             position: absolute;
             top: 40px;
@@ -190,6 +189,12 @@
             color: #5e849c;
         }
 
+        .submitDisable {
+            background-color: #ccc !important;
+            color: #666 !important;
+            cursor: not-allowed !important;
+        }
+
     </style>
     <script>
         function toggleUserOptions() {
@@ -206,7 +211,7 @@
             <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
             <div id="userOptions" style="display: none;">
                 <ul>
-                    <li th:if="${user.role == 2}"><a href="/moderation" >Модерация</a></li>
+                    <li th:if="${user.role.name() == 'ADMIN'}"><a href="/moderation">Модерация</a></li>
                     <li><a href="/purchases">Мои покупки</a></li>
                     <li><a href="/cart">Корзина</a></li>
                     <li><a href="/logout">Выйти</a></li>
@@ -220,7 +225,7 @@
 <div class="nav" th:if="${user==null}">
     <div class="left-corner"><a href="/product">Главная страница</a></div>
     <div class="right-corner">
-        <div class="sign"><a href="/sign_in">Sign In</a></div>
+        <div class="sign"><a href="/login">Sign In</a></div>
         <div class="sign"><a href="/sign_up">Sign Up</a></div>
     </div>
 </div>
@@ -247,19 +252,20 @@
         <td th:text="${product.category.categoryName}"></td>
         <td th:text="${product.cost}"></td>
         <td>
-            <form action="/product/delete_product" method="POST" th:if="${user!=null && user.role == 2}">
+            <form action="/product/delete_product" method="POST" th:if="${user!=null && user.role.name() == 'ADMIN'}">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
                 <input type="hidden" name="page" th:value="${page}">
                 <input type="submit" value="Delete">
             </form>
-            <form action="/product/edit_product" method="POST" th:if="${user!=null && user.role == 2}">
+            <form action="/product/edit_product" method="POST" th:if="${user!=null && user.role.name() == 'ADMIN'}">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
                 <input type="submit" value="Edit">
             </form>
             <form action="/cart/into_a_basket" method="GET">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
                 <input type="hidden" name="page" th:value="${page}">
-                <input type="submit" value="into a basket">
+                <input type="submit" value="into a basket" th:class="${user==null ? 'submitDisable' : ''}"
+                       th:disabled="${user==null}">
             </form>
         </td>
     </tr>
@@ -270,7 +276,7 @@
     Товара нет!
 </div>
 
-<div class="center" th:if="${user!=null && user.role == 2}">
+<div class="center" th:if="${user!=null && user.role.name() == 'ADMIN'}">
     <a href="/product/add_product" class="button">Добавить новый продукт</a>
 </div>
 

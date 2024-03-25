@@ -24,6 +24,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     int findCountAllByAccess();
 
     List<Review> findAllByAccess(boolean flag);
+
+
 }
 
 //@Query("select count(*) from Review where (user = ?1  or access = true) and product = ?2")

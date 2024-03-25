@@ -249,6 +249,9 @@
         <input type="submit" value="Отправить отзыв">
     </form>
 
+    <div class="content" th:if="${user!=null && checkReview == true}" style="color: #B48A8AFF">Вы уже оставляли отзыв!</div>
+    <div class="content" th:if="${user!=null && checkOrder == false}" style="color: #B48A8AFF">Вы можете оставить отзыв после покупки товара...</div>
+    <div class="content" th:if="${user==null}" style="color: #B48A8AFF">Войдите в систему, чтобы оставить отзыв...</div>
     <br>
     <th:block th:each="review : ${reviews}" th:if="${!reviews.isEmpty()}">
             <div class="author" th:text="${review.getUser().getFIO() + 'Оценка: ' + review.getScore()}"></div>
