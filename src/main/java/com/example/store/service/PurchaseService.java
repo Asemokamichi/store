@@ -1,7 +1,7 @@
 package com.example.store.service;
 
 import com.example.store.entity.Purchase;
-import com.example.store.entity.Status;
+import com.example.store.enums.Status;
 import com.example.store.entity.User;
 import com.example.store.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +21,7 @@ public class PurchaseService {
     }
 
     @Transactional
-    public Purchase findByPurchaseId(Long purchaseID){
-        return purchaseRepository.findByPurchaseId(purchaseID);
-    }
-
-    @Transactional
-    public List<Purchase> findAll(){
-        return purchaseRepository.findAll();
-    }
-
-    @Transactional
     public List<Purchase> findAllByStatusNot(){
-//        return purchaseRepository.findAll();
         return purchaseRepository.findAllByStatusNotOrderByDateBegAsc(Status.DELIVERED);
     }
 

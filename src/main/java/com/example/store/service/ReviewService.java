@@ -23,16 +23,6 @@ public class ReviewService {
     private UserService userService;
 
     @Transactional
-    public List<Review> findAll() {
-        return reviewRepository.findAll();
-    }
-
-    @Transactional
-    public Review findById(Long id) {
-        return reviewRepository.findById(id).orElseThrow();
-    }
-
-    @Transactional
     public List<Review> findAllByProductAndAccess(Product product, User user) {
         return reviewRepository.findAllByProductAndAccess(product, user);
     }
@@ -83,5 +73,10 @@ public class ReviewService {
     @Transactional
     public List<Review> findAllByAccess() {
         return reviewRepository.findAllByAccess(false);
+    }
+
+    @Transactional
+    public void updatePrivateReview(Long reviewID){
+        reviewRepository.updatePrivateAccess(reviewID);
     }
 }

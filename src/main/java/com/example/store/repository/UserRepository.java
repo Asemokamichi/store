@@ -7,8 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User getUserByEmailAndPassword(String email, String password);
-
     User getByEmail(String email);
-
-    User findByEmail(String email);
 }

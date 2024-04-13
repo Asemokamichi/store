@@ -246,3 +246,16 @@ values (13, 7, '24 мегапикселя'),
        (17, 14, 'JavaScript');
 
 
+
+select *
+from orders o1, (select count(o.count), product_id
+              from orders o
+              group by o.product_id
+              order by 1) o2
+where o1.product_id = o2.product_id;
+
+
+select *
+from products
+left join orders o on products.product_id = o.product_id
+

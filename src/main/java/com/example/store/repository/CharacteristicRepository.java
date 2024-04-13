@@ -5,4 +5,5 @@ import com.example.store.entity.Characteristic;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CharacteristicRepository extends JpaRepository<Characteristic, Long> {
+    Characteristic findByCharacteristicIdAndCategory(Long id, Category category);
 }

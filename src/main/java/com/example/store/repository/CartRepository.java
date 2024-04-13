@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
-    //    @Query("from Cart where user = ?1 and product = ?2")
     Cart findAllByUserAndProduct(User user, Product product);
 
     List<Cart> findAllByUserOrderByCartId(User user);

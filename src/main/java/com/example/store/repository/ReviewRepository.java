@@ -17,15 +17,15 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select count(*) from Review where user = ?1 and product = ?2")
     int findAllByProductAndUser(User user, Product product);
 
-    @Query("from Review where product = ?1 and access = true or product = ?1 and user = ?2")
+    @Query("from Review where product = ?1 and (access = true or user = ?2)")
     List<Review> findAllByProductAndAccess(Product product, User user);
 
     @Query("select count(*) from Review where access = false")
     int findCountAllByAccess();
 
+    @Query("update Review set access = false where reviewId = ?1")
+    void updatePrivateAccess(Long reviewId);
+
     List<Review> findAllByAccess(boolean flag);
 
-
 }
-
-//@Query("select count(*) from Review where (user = ?1  or access = true) and product = ?2")

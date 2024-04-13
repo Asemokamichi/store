@@ -1,9 +1,16 @@
 package com.example.store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "orders")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
     @Id
     @Column(name = "order_id")
@@ -14,61 +21,11 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "purchase_id")
+    @JsonIgnore
     private Purchase purchase;
-
-    public Order() {
-    }
-
-    public Order(long orderId, int count, Product product, Purchase purchase) {
-        this.orderId = orderId;
-        this.count = count;
-        this.product = product;
-        this.purchase = purchase;
-    }
-
-    public long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Purchase getPurchase() {
-        return purchase;
-    }
-
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", count=" + count +
-                ", product=" + product +
-                ", purchase=" + purchase +
-                '}';
-    }
 }

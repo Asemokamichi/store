@@ -173,7 +173,7 @@
             <th:block th:text="${purchase.status}"></th:block>
             <form action="/moderation/purchases/next" method="post">
                 <input type="hidden" name="purchase_id" th:value="${purchase.purchaseId}">
-                <button type="submit">next</button>
+                <input type="submit" value="next"></input>
             </form>
         </td>
     </tr>

@@ -1,0 +1,254 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #203d4f;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.products {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.products th, .products td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.products th {
+    background-color: #0d466947;
+}
+
+.products tr:hover {
+    background-color: #f5f5f5;
+}
+
+form {
+    display: inline-block;
+}
+
+.center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.item-list {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pager {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.pager li {
+    display: inline;
+}
+
+.pager li a,
+.pager li span {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pager li a:hover {
+    background-color: #f5f5f5;
+}
+
+.pager .pager-current span {
+    background-color: #5e849c;
+    color: #fff;
+    border-color: #5e849c;
+}
+
+.submitDisable {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed !important;
+}
+
+.selected-page {
+    background-color: #5e849c !important;
+    color: white !important;
+}
+
+form input[type="submit"]{
+    background-color: #bbcbd5;
+    color: #203d4f;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 20px 0 20px;
+}
+
+.left-corner {
+    margin-right: auto;
+}
+
+.right-corner {
+    display: flex;
+}
+
+.right-corner > div {
+    margin-left: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #0d3456;
+}
+
+.details {
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.details th,
+.details td{
+    padding: 8px;
+    width: 200px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/*.no-items-message {*/
+/*    margin-top: 20px;*/
+/*    text-align: center;*/
+/*    font-size: 18px;*/
+/*    color: #888;*/
+/*    border: 1px solid #ccc;*/
+/*    padding: 10px;*/
+/*    border-radius: 4px;*/
+/*}*/
+
+/*#userOptions {*/
+/*    position: absolute;*/
+/*    top: 40px;*/
+/*    right: 20px;*/
+/*    background-color: #fff;*/
+/*    border: 1px solid #ccc;*/
+/*    padding: 10px;*/
+/*    border-radius: 4px;*/
+/*    z-index: 9999;*/
+/*}*/
+
+/*#userOptions ul {*/
+/*    list-style-type: none;*/
+/*    padding: 0;*/
+/*}*/
+
+/*#userOptions ul li {*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+/*#userOptions ul li a {*/
+/*    text-decoration: none;*/
+/*    color: #333;*/
+/*}*/
+
+/*#userOptions ul li a:hover {*/
+/*    color: #5e849c;*/
+/*}*/
+
+/*.submitDisable {*/
+/*    background-color: #ccc !important;*/
+/*    color: #666 !important;*/
+/*    cursor: not-allowed !important;*/
+/*}*/
+
+/*.review {*/
+/*    margin-top: 20px;*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 5px;*/
+/*    background-color: #f9f9f9;*/
+/*}*/
+
+/*.review .author {*/
+/*    font-style: italic;*/
+/*    font-weight: bold;*/
+/*    margin-bottom: 5px;*/
+/*    color: #203d4f;*/
+/*}*/
+
+/*.review .content {*/
+/*    margin-left: 20px;*/
+/*    color: #020a0fa6;*/
+/*}*/
+
+/*.characteristic {*/
+/*    text-align: center;*/
+/*}*/
+
+/*.review form {*/
+/*    margin-top: 20px;*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 5px;*/
+/*    background-color: #f9f9f9;*/
+/*}*/
+
+/*.review form label {*/
+/*    display: block;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+/*.review form textarea,*/
+/*.review form input[type="number"] {*/
+/*    width: 50%;*/
+/*    padding: 8px;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.review form input[type="submit"] {*/
+/*    background-color: #0d4669;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    padding: 10px 20px;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.review form input[type="submit"]:hover {*/
+/*    background-color: #0d3456;*/
+/*}*/
+
+/*.score {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: -20px;*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    border-radius: 50%;*/
+/*    background-color: red;*/
+/*    color: white;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.content {*/
+/*    margin-left: 25px;*/
+/*}*/

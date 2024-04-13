@@ -3,138 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #0d466947;
-            width: 200px;
-        }
-
-        td:first-child,
-        th:first-child {
-            padding-left: 4px;
-        }
-
-        td:last-child,
-        th:last-child {
-            padding-right: 4px;
-        }
-
-        .product-form {
-            width: 400px;
-        }
-
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 6px;
-            margin-top: 4px;
-            margin-bottom: 4px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            width: auto;
-            padding: 8px 16px;
-            margin-top: 8px;
-            margin-bottom: 8px;
-            background-color: #0d466947;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0d4669;
-        }
-
-        #userOptions {
-            position: absolute;
-            top: 40px;
-            right: 20px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 4px;
-            z-index: 9999;
-        }
-
-        #userOptions ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        #userOptions ul li {
-            margin-bottom: 5px;
-        }
-
-        #userOptions ul li a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        #userOptions ul li a:hover {
-            color: #5e849c;
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between; /* Distributes items evenly, with space between */
-            align-items: center; /* Aligns items vertically */
-            margin: 20px 20px 0 20px; /* Adjusted margin */
-        }
-
-        .left-corner {
-            margin-right: auto; /* Pushes the left-corner to the left */
-        }
-
-        .right-corner {
-            display: flex;
-        }
-
-        .right-corner > div {
-            margin-left: 10px;
-        }
-
-        .nav > .right-corner > div > a,
-        .nav > .left-corner > a, a {
-            text-decoration: none;
-            color: #0d3456;
-        }
-
-        .count {
-            margin-right: 10px;
-        }
-
-        .no-items-message {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 18px;
-            color: #888;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 4px;
-        }
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script>
         function toggleUserOptions() {
             var userOptions = document.getElementById("userOptions");
@@ -159,7 +28,7 @@
     </div>
 </div>
 <h1>Addendum:</h1>
-<form action="/product/add_product/submit" method="POST">
+<form action="/moderation/add_product/submit" method="POST">
     <table class="product-form">
         <tr>
             <th>Name</th>

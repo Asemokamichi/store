@@ -1,9 +1,16 @@
 package com.example.store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "reviews")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Review {
     @Id
     @Column(name = "review_id")
@@ -19,59 +26,10 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
-
-    public Review() {
-    }
-
-    public boolean isAccess() {
-        return access;
-    }
-
-    public void setAccess(boolean access) {
-        this.access = access;
-    }
-
-    public long getReviewId() {
-        return reviewId;
-    }
-
-    public void setReviewId(long reviewId) {
-        this.reviewId = reviewId;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 }

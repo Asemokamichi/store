@@ -3,6 +3,7 @@ package com.example.store.security;
 import com.example.store.entity.User;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -18,7 +19,11 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        String roleName = user.getRole().name();
+        String authorityName = "ROLE_" + roleName.toLowerCase();
+        GrantedAuthority authority = new SimpleGrantedAuthority(authorityName);
+
+        return List.of(authority);
     }
 
     @Override

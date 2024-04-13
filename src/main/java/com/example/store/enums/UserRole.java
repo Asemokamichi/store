@@ -1,4 +1,4 @@
-package com.example.store.entity;
+package com.example.store.enums;
 
 public enum UserRole {
     USER,

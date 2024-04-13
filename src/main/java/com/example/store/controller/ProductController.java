@@ -62,19 +62,9 @@ public class ProductController {
         model.addAttribute("page", productPage.getNumber());
         model.addAttribute("items", items);
 
-        return "/view/product";
+        return "view/product";
     }
 
-    @PostMapping("/delete_product")
-    public String deleteProduct(@RequestParam("product_id") Long productID,
-                                @RequestParam("page") int page,
-                                Model model) {
-        productService.deleteById(productID);
-
-        return "redirect:/product?page=" + page;
-    }
-
-    //    @Transactional
     @GetMapping("/details_product")
     public String detailsProduct(@RequestParam("product_id") Long product_id,
                                  Model model) {
@@ -102,81 +92,5 @@ public class ProductController {
         return "view/details_product";
     }
 
-    @PostMapping("/edit_product")
-    public String editProduct(@RequestParam("product_id") Long product_id, Model model) {
-        Product product = productService.findById(product_id);
-        List<Category> categories = categoryService.findAll();
 
-        model.addAttribute("product", product);
-        model.addAttribute("categories", categories);
-
-        return "view/edit_product";
-    }
-
-    @PostMapping("/edit_product/submit")
-    public String editProductSubmit(
-            @RequestParam(value = "product_id", required = false) Long product_id,
-            @RequestParam(value = "productName", required = false) String productName,
-            @RequestParam(value = "cost", required = false) Long cost,
-            @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
-            @RequestParam(value = "characteristic_value") List<String> characteristicValueList
-    ) {
-        Product product = new Product();
-
-        if (product_id != null) product = productService.findById(product_id);
-
-        if (productName != "") product.setProductName(productName);
-
-        if (cost != null) product.setCost(cost);
-
-        productCharacteristicService.saveAll(characteristicIDList, characteristicValueList);
-
-        productService.save(product);
-
-        return "redirect:/product";
-    }
-
-    @GetMapping("/add_product")
-    public String addProduct(Model model) {
-        List<Category> categories = categoryService.findAll();
-        model.addAttribute("categories", categories);
-
-        return "view/add_product";
-    }
-
-    @PostMapping("/add_product/submit")
-    public String addProductSubmit(
-            @RequestParam(value = "productName", required = false) String productName,
-            @RequestParam(value = "categoryId", required = false) Long categoryId,
-            @RequestParam(value = "cost", required = false) Long cost,
-            Model model
-    ) {
-        Product product = new Product();
-
-        if (productName != "") product.setProductName(productName);
-
-        if (categoryId != null) {
-            Category category = categoryService.findById(categoryId);
-            product.setCategory(category);
-        }
-
-        if (cost != null) product.setCost(cost);
-
-        productService.save(product);
-        model.addAttribute("product", product);
-
-        return "view/add_characteristics";
-    }
-
-    @PostMapping("/add_characteristics/submit")
-    public String addCharacteristicsSubmit(
-            @RequestParam(value = "product_id") Long productID,
-            @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
-            @RequestParam(value = "characteristic_value") List<String> characteristicValueList
-    ) {
-        Product product = productService.findById(productID);
-        productCharacteristicService.saveAllByProduct(product, characteristicIDList, characteristicValueList);
-
-        return "redirect:/product";
-    }
 }

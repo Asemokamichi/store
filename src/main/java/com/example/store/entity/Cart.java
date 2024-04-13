@@ -1,9 +1,16 @@
 package com.example.store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "carts")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cart {
     @Id
     @Column(name = "cart_id")
@@ -14,61 +21,11 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
-
-    public Cart() {
-    }
-
-    public Cart(long cartId, int count, User user, Product product) {
-        this.cartId = cartId;
-        this.count = count;
-        this.user = user;
-        this.product = product;
-    }
-
-    public long getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(long cartId) {
-        this.cartId = cartId;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "cartId=" + cartId +
-                ", count=" + count +
-                ", user=" + user +
-                ", product=" + product +
-                '}';
-    }
 }

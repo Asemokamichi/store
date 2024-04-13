@@ -1,17 +1,16 @@
 package com.example.store.service;
 
 import com.example.store.entity.*;
+import com.example.store.enums.Status;
 import com.example.store.repository.CartRepository;
 import com.example.store.repository.OrderRepository;
 import com.example.store.repository.ProductRepository;
 import com.example.store.repository.PurchaseRepository;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,6 +66,7 @@ public class CartService {
         purchase.setStatus(Status.CREATED);
 
         purchaseRepository.save(purchase);
+        "hello".intern();
 
         for (Cart cart : carts) {
             Order order = new Order();

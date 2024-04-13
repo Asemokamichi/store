@@ -15,20 +15,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private User user;
-
-    @Transactional
-    public void getUserByEmailAndPassword(String email, String password) {
-        user = userRepository.getUserByEmailAndPassword(email, password);
-    }
-
     @Transactional
     public User getByEmail(String email){
         User user = userRepository.getByEmail(email);
         return user;
     }
 
-
+    @Transactional
     public User getUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
@@ -42,11 +35,3 @@ public class UserService {
     }
 
 }
-
-
-//добавить отзыву область видимостей, исправить мелькие недочеты, исправить покупки?
-// но еще не особа поняла каким образом это должно выглядить
-// насчет характеристок у меня там есть надоотчеты и средняя оценка он не правильно округляет
-//типа покупка 1
-//потом перехожу на эту покупку
-//
