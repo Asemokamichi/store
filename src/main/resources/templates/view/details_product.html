@@ -20,7 +20,7 @@
 </table>
 
 <h3 th:if="${!product.getProductCharacteristics().isEmpty()}">Характеристикa</h3>
-<table>
+<table class="details">
     <tr th:each="characteristic : ${product.productCharacteristics}">
         <th><span th:text="${characteristic.characteristic.characteristicName}"></span>:</th>
         <td><span th:text="${characteristic.characteristicValue}"></span></td>
@@ -53,7 +53,7 @@
 
         <form action="/moderation/re" th:if="${user!=null && user.role.name()=='ADMIN'}">
             <input type="hidden" name="review_id" th:value="${review.reviewId}">
-            <button>Убрать</button>
+            <input type="submit" value="Убрать">
         </form>
     </th:block>
     <p th:if="${avgScore!=null}">Средняя оценка: <span th:text="${avgScore}"></span> звезд</p>

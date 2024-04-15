@@ -4,7 +4,7 @@
 <body>
 <th:block th:replace="view/fragments/head :: nav"></th:block>
 <h1>Cart</h1>
-<table th:if="${!carts.isEmpty()}">
+<table th:if="${!carts.isEmpty()}" class="products">
     <thead>
     <tr>
         <th>ID</th>

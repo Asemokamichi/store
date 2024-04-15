@@ -45,6 +45,6 @@ public class User {
     List<Review> reviews;
 
     public String getFIO(){
-        return userName + " " + userSurname;
+        return userName + " " + userSurname + " ";
     }
 }

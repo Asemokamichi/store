@@ -4,7 +4,7 @@
 <th:block th:replace="view/fragments/head :: nav"></th:block>
 <h1>Addendum:</h1>
 <form action="/moderation/add_characteristics/submit" method="POST">
-    <table>
+    <table class="details">
         <tr>
             <th>ID</th>
             <td><span th:text="${product.productId}"></span></td>
@@ -24,7 +24,7 @@
     </table>
 
     <h3>Характеристикa</h3>
-    <table>
+    <table class="details">
         <tr th:each="characteristic : ${product.category.getCharacteristics()}">
             <th><span th:text="${characteristic.getCharacteristicName()}"></span>:</th>
             <td>
@@ -35,7 +35,7 @@
         <tr>
             <td colspan="2">
                 <input type="hidden" name="product_id" th:value="${product.getProductId()}">
-                <button type="submit">Edit</button>
+                <input type="submit" value="Edit">
             </td>
         </tr>
     </table>

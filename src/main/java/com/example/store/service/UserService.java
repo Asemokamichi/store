@@ -17,7 +17,7 @@ public class UserService {
 
     @Transactional
     public User getByEmail(String email){
-        User user = userRepository.getByEmail(email);
+        User user = userRepository.findByEmail(email).orElse(null);
         return user;
     }
 
@@ -25,7 +25,7 @@ public class UserService {
     public User getUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        User user = userRepository.getByEmail( authentication.getName());
+        User user = userRepository.findByEmail( authentication.getName()).orElse(null);
         return user;
     }
 

@@ -105,6 +105,7 @@ public class AdminController {
         Product product = productService.findById(product_id);
         List<Category> categories = categoryService.findAll();
 
+        model.addAttribute("user", userService.getUser());
         model.addAttribute("product", product);
         model.addAttribute("categories", categories);
 
@@ -116,8 +117,8 @@ public class AdminController {
             @RequestParam(value = "product_id", required = false) Long product_id,
             @RequestParam(value = "productName", required = false) String productName,
             @RequestParam(value = "cost", required = false) Long cost,
-            @RequestParam(value = "characteristic_id") List<Long> characteristicIDList,
-            @RequestParam(value = "characteristic_value") List<String> characteristicValueList
+            @RequestParam(value = "characteristic_id", required = false) List<Long> characteristicIDList,
+            @RequestParam(value = "characteristic_value", required = false) List<String> characteristicValueList
     ) {
         Product product = new Product();
 
@@ -127,7 +128,9 @@ public class AdminController {
 
         if (cost != null) product.setCost(cost);
 
-        productCharacteristicService.saveAll(characteristicIDList, characteristicValueList);
+        if (characteristicIDList !=null &&
+                characteristicValueList!=null
+        )productCharacteristicService.saveAll(characteristicIDList, characteristicValueList);
 
         productService.save(product);
 
@@ -137,7 +140,10 @@ public class AdminController {
     @GetMapping("/add_product")
     public String addProduct(Model model) {
         List<Category> categories = categoryService.findAll();
+
+        model.addAttribute("user", userService.getUser());
         model.addAttribute("categories", categories);
+        model.addAttribute("user", userService.getUser());
 
         return "view/add_product";
     }
@@ -161,6 +167,8 @@ public class AdminController {
         if (cost != null) product.setCost(cost);
 
         productService.save(product);
+
+        model.addAttribute("user", userService.getUser());
         model.addAttribute("product", product);
 
         return "view/add_characteristics";

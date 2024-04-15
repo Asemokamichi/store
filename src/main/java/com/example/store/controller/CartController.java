@@ -28,8 +28,8 @@ public class CartController {
         int summ = 0;
         if (!carts.isEmpty()) summ = cartService.findSum(user);
 
-        model.addAttribute("carts", carts);
         model.addAttribute("user", user);
+        model.addAttribute("carts", carts);
         model.addAttribute("summ", summ);
 
         return "view/cart";

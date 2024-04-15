@@ -16,6 +16,7 @@
                 <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
                 <div id="userOptions" style="display: none;">
                     <ul>
+                        <li th:if="${user.role.name() == 'ADMIN'}"><a href="/moderation">Модерация</a></li>
                         <li><a href="/purchases">Мои покупки</a></li>
                         <li><a href="/cart">Корзина</a></li>
                         <li><a href="/logout">Выйти</a></li>
