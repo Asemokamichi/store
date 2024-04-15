@@ -1,32 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-    <script>
-        function toggleUserOptions() {
-            var userOptions = document.getElementById("userOptions");
-            userOptions.style.display = userOptions.style.display === "none" ? "block" : "none";
-        }
-    </script>
-</head>
+<head th:replace="view/fragments/head :: head(Products)"></head>
 <body>
-<div class="nav" th:if="${user!=null}">
-    <div class="left-corner"><a href="/product">Главная страница</a></div>
-    <div class="right-corner">
-        <div>
-            <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
-            <div id="userOptions" style="display: none;">
-                <ul>
-                    <li><a href="/purchases">Мои покупки</a></li>
-                    <li><a href="/cart">Корзина</a></li>
-                    <li><a href="/logout">Выйти</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+<th:block th:replace="view/fragments/head :: nav"></th:block>
 <h1>Addendum:</h1>
 <form action="/moderation/add_characteristics/submit" method="POST">
     <table>

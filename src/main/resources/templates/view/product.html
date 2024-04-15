@@ -1,15 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-    <script th:src="@{/js/index.js}"></script>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="view/fragments/head :: head(Products)"></head>
 <body>
-<th:block th:replace="view/nav_fragment :: nav_fragment"></th:block>
+<th:block th:replace="view/fragments/head :: nav"></th:block>
 <h1>Products</h1>
 <table class="products" th:if="${!products.isEmpty()}">
     <thead>
@@ -33,7 +26,8 @@
         <td th:text="${product.category.categoryName}"></td>
         <td th:text="${product.cost}"></td>
         <td>
-            <form action="/moderation/delete_product" method="POST" th:if="${user!=null && user.role.name() == 'ADMIN'}">
+            <form action="/moderation/delete_product" method="POST"
+                  th:if="${user!=null && user.role.name() == 'ADMIN'}">
                 <input type="hidden" name="product_id" th:value="${product.productId}">
                 <input type="hidden" name="page" th:value="${page}">
                 <input type="submit" value="Delete">
