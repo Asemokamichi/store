@@ -1,6 +1,5 @@
 package com.example.store.controller;
 
-import com.example.store.entity.Category;
 import com.example.store.entity.Product;
 import com.example.store.entity.Review;
 import com.example.store.entity.User;
@@ -8,7 +7,6 @@ import com.example.store.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,7 +60,7 @@ public class ProductController {
         model.addAttribute("page", productPage.getNumber());
         model.addAttribute("items", items);
 
-        return "view/product";
+        return "products/index";
     }
 
     @GetMapping("/details_product")
@@ -89,7 +87,7 @@ public class ProductController {
         model.addAttribute("avgScore", avgScore);
         model.addAttribute("checkOrder", checkOrder);
 
-        return "view/details_product";
+        return "products/product_details";
     }
 
 

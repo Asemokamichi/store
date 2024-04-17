@@ -36,7 +36,8 @@ create table characteristics
 (
     characteristic_id   serial8 primary key,
     category_id         int8        references categories (category_id) on delete set null,
-    characteristic_name varchar(50) not null
+    characteristic_name varchar(50) not null,
+    filter              bool default false
 );
 
 create table product_characteristic
@@ -51,7 +52,7 @@ create table product_characteristic
 create table users
 (
     user_id      serial8 primary key,
-    role         varchar        not null,
+    role         varchar not null,
     email        varchar not null,
     password     varchar not null,
     user_name    varchar not null,
@@ -71,8 +72,8 @@ create table purchases
 (
     purchase_id serial8 primary key,
     user_id     int8 references users (user_id),
-    status   int2 not null default 0,
-    date_beg    date default now(),
+    status      int2 not null default 0,
+    date_beg    date          default now(),
     address     text
 );
 
@@ -102,7 +103,6 @@ create table reviews
 --     session_id serial8 primary key,
 --     user_id    int8 references users (user_id)
 -- );
-
 
 
 insert into categories (category_name)
@@ -141,10 +141,10 @@ values (1, 1, 'Samsung'),
        (6, 5, 'Лутц М.');
 
 
--- insert into users (role, email, password, user_name, user_surname)
--- values (0, 'user1@gmail.com', 'password1', 'John', 'Doe'),
---        (1, 'user2@gmail.com', 'password2', 'Jane', 'Smith'),
---        (0, 'user3@gmail.com', 'password3', 'Alice', 'Johnson');
+insert into users (role, email, password, user_name, user_surname)
+values (0, 'user1@gmail.com', '$2a$12$Nq642BLCcFBBufXznaSFdupbPJxcCM0vVll/AaBoXsQNLvyYjNPUW', 'John', 'Doe'),
+       (1, 'user2@gmail.com', '$2a$12$zxFURej/TdRddWRVJ8IVZuY0pyhKhIvBTmb.7e7E46MRp9ORhMBtq', 'Jane', 'Smith'),
+       (0, 'user3@gmail.com', '$2a$12$7dJIIsQmdfdiuv3CfsXrxuSJJBmOhWkorUbIqIqYiWybXczsoMPza', 'Alice', 'Johnson');
 
 
 insert into carts (user_id, product_id, count)
@@ -245,17 +245,72 @@ values (13, 7, '24 мегапикселя'),
        (17, 13, 'Wiley'),
        (17, 14, 'JavaScript');
 
+insert into products (category_id, product_name, cost)
+values (1, 'Видеокамера', 700),
+       (1, 'Флешка', 15),
+       (2, 'Брюки', 60),
+       (2, 'Пиджак', 90),
+       (3, 'Алгоритмы и структуры данных', 40),
+       (3, 'PHP для начинающих', 30);
+
+insert into characteristics (category_id, characteristic_name)
+values (1, 'Размеры'),
+       (1, 'Тип сенсора'),
+       (2, 'Цвет'),
+       (2, 'Фасон'),
+       (3, 'Издательство'),
+       (3, 'Авторство');
+
+insert into product_characteristic (product_id, characteristic_id, characteristic)
+values (18, 15, '1920x1080'),
+       (18, 16, 'CMOS'),
+       (19, 15, '64 ГБ'),
+       (19, 16, 'USB 3.0'),
+       (20, 17, 'XL'),
+       (20, 18, 'Черный'),
+       (21, 19, 'Hugo Boss'),
+       (21, 20, 'Классический'),
+       (22, 21, 'O''Reilly'),
+       (22, 22, 'John Smith');
+
+
+insert into products (category_id, product_name, cost)
+values (1, 'Монитор', 300),
+       (1, 'Мышь', 20),
+       (2, 'Пальто', 80),
+       (2, 'Шарф', 25),
+       (3, 'SQL и базы данных', 35),
+       (3, 'Swift для iOS', 45);
+
+insert into characteristics (category_id, characteristic_name)
+values (1, 'Диагональ'),
+       (1, 'Тип подключения'),
+       (2, 'Материал'),
+       (2, 'Узор'),
+       (3, 'Издательство'),
+       (3, 'Авторство');
+
+insert into product_characteristic (product_id, characteristic_id, characteristic)
+values (23, 23, '27 дюймов'),
+       (23, 24, 'HDMI'),
+       (24, 23, 'Bluetooth'),
+       (24, 24, 'Беспроводная'),
+       (25, 25, 'Шерсть'),
+       (25, 26, 'Клетка'),
+       (26, 27, 'O''Reilly'),
+       (26, 28, 'John Doe');
 
 
 select *
-from orders o1, (select count(o.count), product_id
-              from orders o
-              group by o.product_id
-              order by 1) o2
+from orders o1,
+     (select count(o.count), product_id
+      from orders o
+      group by o.product_id
+      order by 1) o2
 where o1.product_id = o2.product_id;
 
 
 select *
 from products
-left join orders o on products.product_id = o.product_id
+         left join orders o on products.product_id = o.product_id
 

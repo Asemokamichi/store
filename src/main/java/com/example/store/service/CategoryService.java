@@ -60,6 +60,11 @@ public class CategoryService {
 
     @Transactional
     public Category findById(Long categoryId){
-        return categoryRepository.findById(categoryId).orElseThrow();
+        return categoryRepository.findById(categoryId).orElse(null);
+    }
+
+    @Transactional
+    public void k(){
+        
     }
 }

@@ -20,6 +20,8 @@ public class Characteristic {
     private long characteristicId;
     @Column(name = "characteristic_name")
     private String characteristicName;
+    @Column(name = "filter")
+    private Boolean filter;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

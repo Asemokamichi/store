@@ -32,12 +32,12 @@ public class CartController {
         model.addAttribute("carts", carts);
         model.addAttribute("summ", summ);
 
-        return "view/cart";
+        return "cart/index";
     }
 
-    @GetMapping("/make_an_order")
+    @GetMapping("/place_order")
     public String make_an_order() {
-        return "view/make_an_order";
+        return "orders/place_order";
     }
 
     @PostMapping("/submit")

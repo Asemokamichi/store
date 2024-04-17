@@ -33,7 +33,7 @@ public class PurchaseController {
         model.addAttribute("purchases", purchases);
         model.addAttribute("user", user);
 
-        return "view/purchases";
+        return "orders/index";
     }
 
     @GetMapping("/purchases/details")
@@ -48,6 +48,6 @@ public class PurchaseController {
         model.addAttribute("user", user);
         model.addAttribute("summ", summ);
 
-        return "view/purchase_details";
+        return "orders/order_details";
     }
 }

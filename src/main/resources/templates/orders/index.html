@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="view/fragments/head :: head(Products)"></head>
+<head th:replace="fragments/head :: head(Products)"></head>
 <body>
-<th:block th:replace="view/fragments/head :: nav"></th:block>
+<th:block th:replace="fragments/head :: nav"></th:block>
 <h1>Purchases</h1>
 <table th:if="${!purchases.isEmpty()}" class="products">
     <thead>
@@ -22,13 +22,7 @@
         </td>
         <td th:text="${purchase.dateBeg}"></td>
         <td th:text="${purchase.address}"></td>
-        <td>
-            <th:block th:text="${purchase.status}"></th:block>
-            <form action="/moderation/purchases/next" method="post">
-                <input type="hidden" name="purchase_id" th:value="${purchase.purchaseId}">
-                <input type="submit" value="next"></input>
-            </form>
-        </td>
+        <td th:text="${purchase.status}"></td>
     </tr>
     </tbody>
 </table>

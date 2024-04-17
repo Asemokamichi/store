@@ -22,4 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "order by SUM(o.count) desc, p.productName " +
             "limit 3")
     List<NewProduct> findMostOrderedProducts();
+
+    List<Product> findAllByCategory(Category category);
 }

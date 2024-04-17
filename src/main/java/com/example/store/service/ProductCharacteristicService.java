@@ -20,17 +20,17 @@ public class ProductCharacteristicService {
     private CharacteristicRepository characteristicRepository;
 
     @Transactional
-    public ProductCharacteristic findById(Long id){
+    public ProductCharacteristic findById(Long id) {
         return productCharacteristicRepository.findById(id).orElseThrow();
     }
 
     @Transactional
-    public void save(ProductCharacteristic productCharacteristic){
+    public void save(ProductCharacteristic productCharacteristic) {
         productCharacteristicRepository.save(productCharacteristic);
     }
 
     @Transactional
-    public void saveAll(List<Long> characteristicIDList, List<String> characteristicValueList){
+    public void saveAll(List<Long> characteristicIDList, List<String> characteristicValueList) {
         if (characteristicIDList.size() == characteristicValueList.size() && !characteristicIDList.isEmpty()) {
             for (int i = 0; i < characteristicIDList.size(); i++) {
                 ProductCharacteristic pc = findById(characteristicIDList.get(i));
@@ -42,7 +42,7 @@ public class ProductCharacteristicService {
     }
 
     @Transactional
-    public void saveAllByProduct(Product product, List<Long> characteristicIDList, List<String> characteristicValueList){
+    public void saveAllByProduct(Product product, List<Long> characteristicIDList, List<String> characteristicValueList) {
         if (characteristicIDList.size() == characteristicValueList.size() && !characteristicIDList.isEmpty()) {
             for (int i = 0; i < characteristicIDList.size(); i++) {
                 if (characteristicValueList.get(i).isEmpty()) continue;
@@ -57,5 +57,12 @@ public class ProductCharacteristicService {
                 save(pc);
             }
         }
+    }
+
+    @Transactional
+    public List<String> get(Characteristic characteristic) {
+        return productCharacteristicRepository
+                .findByCharacteristic(characteristic)
+                .orElse(null);
     }
 }

@@ -39,6 +39,11 @@ public class ProductService {
     private OrderRepository orderRepository;
 
     @Transactional
+    public List<Product> findAll(){
+        return productRepository.findAll();
+    }
+
+    @Transactional
     public Page<Product> findAll(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Product> productPage = productRepository.findAll(pageable);
@@ -137,6 +142,10 @@ public class ProductService {
     }
 
 
+    @Transactional
+    public List<Product> findAllByCategory(Category category){
+        return productRepository.findAllByCategory(category);
+    }
 }
 
 

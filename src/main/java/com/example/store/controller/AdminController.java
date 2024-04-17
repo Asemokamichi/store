@@ -43,7 +43,7 @@ public class AdminController {
         model.addAttribute("numberPrivateReviews", numberPrivateReviews);
         model.addAttribute("numberPurchases", numberPurchases);
 
-        return "view/moderation";
+        return "moderation/index";
     }
 
 
@@ -56,7 +56,7 @@ public class AdminController {
         model.addAttribute("user", user);
         model.addAttribute("reviews", reviews);
 
-        return "view/moderation_reviews";
+        return "moderation/review_moderation";
     }
 
     @PostMapping("/reviews/delete")
@@ -81,7 +81,7 @@ public class AdminController {
         model.addAttribute("user", user);
         model.addAttribute("purchases", purchases);
 
-        return "view/moderation_purchases";
+        return "moderation/order_moderation";
     }
 
     @PostMapping("/purchases/next")
@@ -109,7 +109,7 @@ public class AdminController {
         model.addAttribute("product", product);
         model.addAttribute("categories", categories);
 
-        return "view/edit_product";
+        return "moderation/product/edit_product_form";
     }
 
     @PostMapping("/edit_product/submit")
@@ -145,7 +145,7 @@ public class AdminController {
         model.addAttribute("categories", categories);
         model.addAttribute("user", userService.getUser());
 
-        return "view/add_product";
+        return "moderation/product/add_product_form";
     }
 
     @PostMapping("/add_product/submit")
@@ -171,7 +171,7 @@ public class AdminController {
         model.addAttribute("user", userService.getUser());
         model.addAttribute("product", product);
 
-        return "view/add_characteristics";
+        return "moderation/product/add_product_characteristics";
     }
 
     @PostMapping("/add_characteristics/submit")

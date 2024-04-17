@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="view/fragments/head :: head(Products)"></head>
+<head th:replace="fragments/head :: head(Products)"></head>
 <body>
-<th:block th:replace="view/fragments/head :: nav"></th:block>
+<th:block th:replace="fragments/head :: nav"></th:block>
 <form action="/cart/submit" method="POST">
   Address: <input type="text" name="address">
   <input type="submit" value="make an order">
