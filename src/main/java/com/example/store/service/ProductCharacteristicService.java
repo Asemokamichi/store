@@ -60,7 +60,7 @@ public class ProductCharacteristicService {
     }
 
     @Transactional
-    public List<String> get(Characteristic characteristic) {
+    public List<ProductCharacteristic> productCharacteristicRepository(Characteristic characteristic) {
         return productCharacteristicRepository
                 .findByCharacteristic(characteristic)
                 .orElse(null);

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "product_characteristic")
-@Data
+//@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductCharacteristic {
@@ -28,4 +28,36 @@ public class ProductCharacteristic {
     @JoinColumn(name = "characteristic_id")
     @JsonIgnore
     private Characteristic characteristic;
+
+    public long getProductCharacteristicId() {
+        return productCharacteristicId;
+    }
+
+    public void setProductCharacteristicId(long productCharacteristicId) {
+        this.productCharacteristicId = productCharacteristicId;
+    }
+
+    public String getCharacteristicValue() {
+        return characteristicValue;
+    }
+
+    public void setCharacteristicValue(String characteristicValue) {
+        this.characteristicValue = characteristicValue;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Characteristic getCharacteristic() {
+        return characteristic;
+    }
+
+    public void setCharacteristic(Characteristic characteristic) {
+        this.characteristic = characteristic;
+    }
 }

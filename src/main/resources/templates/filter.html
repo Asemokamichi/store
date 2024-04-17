@@ -28,11 +28,13 @@
 
             <form action="/filter/action" method="post" th:if="${currentCategory != null}">
                 <th:block th:each="entry, iterStat : ${map}">
-                    <label th:text="${entry.key}"></label>
+                    <label th:text="${entry.key.characteristicName}"></label>
                     <th:block th:each="value : ${entry.value}">
-                        <input type="checkbox" name="selectedValues" th:id="'selectedValues' + ${iterStat.index}" th:value="${value}" th:text="${value}">
+<!--                        <p th:text="${entry.key.characteristicId}"></p>-->
+<!--                        <input type="checkbox" th:field="${filterDto.filterMap[entry.key.characteristicId]}"/>-->
+<!--                        <input type="checkbox" th:field="${filterDto.filterMap[entry.key.characteristicId]}"  th:id="'selectedValues' + ${iterStat.index}" th:value="${value.productCharacteristicId}" th:text="${value.characteristicValue}">-->
                     </th:block>
-                    <input type="hidden" name="selectedKeys" th:value="${entry.key}">
+<!--                    <input type="hidden" name="selectedKeys" th:value="${entry.key}">-->
                 </th:block>
                 <input type="submit" value="Отправить">
             </form>

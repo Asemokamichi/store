@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface ProductCharacteristicRepository extends JpaRepository<ProductCharacteristic, Long> {
     Optional<ProductCharacteristic> findByCharacteristicAndProduct(Characteristic characteristic, Product product);
 
-    @Query("select characteristicValue from ProductCharacteristic where characteristic = ?1 and characteristic.filter = true")
-    Optional<List<String>> findByCharacteristic(Characteristic characteristic);
+    @Query("from ProductCharacteristic where characteristic = ?1 and characteristic.filter = true")
+    Optional<List<ProductCharacteristic>> findByCharacteristic(Characteristic characteristic);
 }

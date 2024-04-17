@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-@Data
+//@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
@@ -42,4 +42,68 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     List<Review> reviews;
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public long getCost() {
+        return cost;
+    }
+
+    public void setCost(long cost) {
+        this.cost = cost;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<ProductCharacteristic> getProductCharacteristics() {
+        return productCharacteristics;
+    }
+
+    public void setProductCharacteristics(List<ProductCharacteristic> productCharacteristics) {
+        this.productCharacteristics = productCharacteristics;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }
