@@ -7,32 +7,4 @@
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <script th:src="@{/js/index.js}"></script>
 </head>
-<body>
-<nav th:fragment="nav">
-    <div class="nav" th:if="${user!=null}">
-        <div class="left-corner"><a href="/product">Главная страница</a></div>
-        <div class="right-corner">
-            <div>
-                <a href="#" onclick="toggleUserOptions()">[[${user.getFIO()}]]</a>
-                <div id="userOptions" style="display: none;">
-                    <ul>
-                        <li th:if="${user.role.name() == 'ADMIN'}"><a href="/moderation">Модерация</a></li>
-                        <li><a href="/purchases">Мои покупки</a></li>
-                        <li><a href="/cart">Корзина</a></li>
-                        <li><a href="/logout">Выйти</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="nav" th:if="${user==null}">
-        <div class="left-corner"><a href="/product">Главная страница</a></div>
-        <div class="right-corner">
-            <div class="sign"><a href="/login">Sign In</a></div>
-            <div class="sign"><a href="/sign_up">Sign Up</a></div>
-        </div>
-    </div>
-</nav>
-</body>
 </html>

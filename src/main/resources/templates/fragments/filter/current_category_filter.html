@@ -1,0 +1,23 @@
+<h3>Фильтр</h3>
+<div>
+    <p>Текущая категория: <span th:text="${currentCategory.categoryName}"></span></p>
+</div>
+
+<form id="sliderForm" method="get">
+    <input type="hidden" name="min" id="minValueInput">
+    <input type="hidden" name="max" id="maxValueInput">
+    <div id="slider" th:data-min-value="${min}" th:data-max-value="${max}"></div>
+    <p>Выбранный диапазон: <br><span id="slider-value"></span></p>
+
+    <th:block th:each="entry, iterStat : ${map}">
+        <label th:text="${entry.key.characteristicName}"></label>
+        <th:block th:each="value : ${entry.value}">
+            <input type="checkbox" th:field="${filterDto.filterMap[__${entry.key.characteristicId}__]}"
+                   th:value="${value}" th:text="${value}"/>
+        </th:block>
+    </th:block>
+    <br><br>
+    <input type="submit" value="Отправить">
+</form>
+
+<form action="/filter"><input type="submit" value="Назад"></form>

@@ -16,7 +16,6 @@ drop table if exists categories;
 
 drop table if exists users;
 
-
 create table categories
 (
     category_id   serial8 primary key,
@@ -98,219 +97,91 @@ create table reviews
     access     bool default true
 );
 
--- create table session
--- (
---     session_id serial8 primary key,
---     user_id    int8 references users (user_id)
--- );
-
+insert into users (role, email, password, user_name, user_surname)
+values (0, 'user1@gmail.com', '$2a$12$Nq642BLCcFBBufXznaSFdupbPJxcCM0vVll/AaBoXsQNLvyYjNPUW', 'John', 'Doe'),
+       (1, 'user2@gmail.com', '$2a$12$zxFURej/TdRddWRVJ8IVZuY0pyhKhIvBTmb.7e7E46MRp9ORhMBtq', 'Jane', 'Smith'),
+       (0, 'user3@gmail.com', '$2a$12$7dJIIsQmdfdiuv3CfsXrxuSJJBmOhWkorUbIqIqYiWybXczsoMPza', 'Alice', 'Johnson');
 
 insert into categories (category_name)
 values ('Электроника'),
        ('Одежда'),
        ('Книги');
 
-
-insert into products (category_id, product_name, cost)
-values (1, 'Смартфон', 500),
-       (1, 'Ноутбук', 1000),
-       (2, 'Футболка', 20),
-       (2, 'Джинсы', 50),
-       (3, 'Java руководство', 30),
-       (3, 'Python для начинающих', 25);
-
-
 insert into characteristics (category_id, characteristic_name)
 values (1, 'Производитель'),
        (1, 'Операционная система'),
+       (1, 'Модельный год'),
+       (1, 'Диагональ дисплея, дюйм'),
        (2, 'Размер'),
        (2, 'Цвет'),
-       (3, 'Автор');
-
-
-insert into product_characteristic (product_id, characteristic_id, characteristic)
-values (1, 1, 'Samsung'),
-       (1, 2, 'Android'),
-       (2, 1, 'HP'),
-       (2, 2, 'Windows'),
-       (3, 3, 'M'),
-       (3, 4, 'Синий'),
-       (4, 3, 'L'),
-       (4, 4, 'Черный'),
-       (5, 5, 'Шилдт Г.'),
-       (6, 5, 'Лутц М.');
-
-
-insert into users (role, email, password, user_name, user_surname)
-values (0, 'user1@gmail.com', '$2a$12$Nq642BLCcFBBufXznaSFdupbPJxcCM0vVll/AaBoXsQNLvyYjNPUW', 'John', 'Doe'),
-       (1, 'user2@gmail.com', '$2a$12$zxFURej/TdRddWRVJ8IVZuY0pyhKhIvBTmb.7e7E46MRp9ORhMBtq', 'Jane', 'Smith'),
-       (0, 'user3@gmail.com', '$2a$12$7dJIIsQmdfdiuv3CfsXrxuSJJBmOhWkorUbIqIqYiWybXczsoMPza', 'Alice', 'Johnson');
-
-
-insert into carts (user_id, product_id, count)
-values (1, 1, 2),
-       (1, 3, 1),
-       (2, 2, 1),
-       (3, 5, 1),
-       (3, 6, 2);
-
-
-insert into purchases (user_id, status, date_beg)
-values (3, 1, now() - interval '3 days'),
-       (1, 2, now() - interval '2 days'),
-       (2, 1, now() - interval '1 day');
-
-
-insert into orders (product_id, purchase_id, count)
-values (1, 1, 2),
-       (3, 1, 1),
-       (2, 2, 1),
-       (5, 3, 1),
-       (6, 3, 2);
-
-
-insert into reviews (user_id, product_id, review, score)
-values (1, 1, 'Отличный смартфон, рекомендую!', 5),
-       (2, 3, 'Футболка подошла по размеру, спасибо!', 4),
-       (3, 5, 'Отличная книга для начинающих.', 5),
-       (1, 2, 'Ноутбук оказался мощным и надежным.', 5),
-       (2, 6, 'Python для начинающих - отличный выбор для изучения языка.', 4),
-       (3, 4, 'Джинсы качественные, но немного велики в талии.', 4),
-       (1, 3, 'Футболка отличного качества, материал приятный к телу.', 5),
-       (2, 1, 'Смартфон имеет отличную камеру и производительность.', 5),
-       (3, 2, 'Ноутбук был доставлен вовремя, упаковка целая.', 5),
-       (1, 5, 'Java руководство - отличная книга для изучения языка.', 5);
-
-
-
-insert into reviews(user_id, product_id, review, score)
-values (3, 1, 'не тот товар', 1);
-
-insert into products (category_id, product_name, cost)
-values (1, 'Планшет', 300),
-       (1, 'Наушники', 50),
-       (2, 'Платье', 40),
-       (2, 'Костюм', 70),
-       (3, 'SQL для начинающих', 35),
-       (3, 'JavaScript: Полное руководство', 40);
-;
-
-
-insert into characteristics (category_id, characteristic_name)
-values (1, 'Емкость батареи'),
-       (1, 'Размер экрана'),
-       (2, 'Материал'),
-       (2, 'Сезонность'),
-       (3, 'Издательство'),
-       (3, 'Авторство');
-
-
-insert into product_characteristic (product_id, characteristic_id, characteristic)
-values (7, 1, '4000 мАч'),
-       (7, 2, '10 дюймов'),
-       (8, 1, '20 часов'),
-       (8, 2, 'Bluetooth'),
-       (9, 3, 'Хлопок'),
-       (9, 4, 'Летний'),
-       (10, 5, 'Reilly'),
-       (10, 6, 'Джон Дакетт');
-
-
-insert into products (category_id, product_name, cost)
-values (1, 'Фотоаппарат', 400),
-       (1, 'Портативное зарядное устройство', 25),
-       (2, 'Юбка', 30),
-       (2, 'Рубашка', 45),
-       (3, 'HTML и CSS: Дизайн и разметка веб-страниц', 30),
-       (3, 'C# для начинающих', 35);
-
-insert into characteristics (category_id, characteristic_name)
-values (1, 'Разрешение'),
-       (1, 'Тип матрицы'),
-       (2, 'Длина'),
-       (2, 'Стиль'),
+       (2, 'Бренд'),
+       (3, 'Автор'),
        (3, 'Издатель'),
-       (3, 'Язык программирования');
-
-
-insert into product_characteristic (product_id, characteristic_id, characteristic)
-values (13, 7, '24 мегапикселя'),
-       (13, 8, 'APS-C'),
-       (14, 7, '20000 мАч'),
-       (14, 8, 'USB-C'),
-       (15, 9, 'Макси'),
-       (15, 10, 'Кэжуал'),
-       (16, 11, 'Для детей'),
-       (16, 12, 'Спортивный'),
-       (17, 13, 'Wiley'),
-       (17, 14, 'JavaScript');
+       (3, 'Год выпуска');
 
 insert into products (category_id, product_name, cost)
-values (1, 'Видеокамера', 700),
-       (1, 'Флешка', 15),
-       (2, 'Брюки', 60),
-       (2, 'Пиджак', 90),
-       (3, 'Алгоритмы и структуры данных', 40),
-       (3, 'PHP для начинающих', 30);
-
-insert into characteristics (category_id, characteristic_name)
-values (1, 'Размеры'),
-       (1, 'Тип сенсора'),
-       (2, 'Цвет'),
-       (2, 'Фасон'),
-       (3, 'Издательство'),
-       (3, 'Авторство');
-
-insert into product_characteristic (product_id, characteristic_id, characteristic)
-values (18, 15, '1920x1080'),
-       (18, 16, 'CMOS'),
-       (19, 15, '64 ГБ'),
-       (19, 16, 'USB 3.0'),
-       (20, 17, 'XL'),
-       (20, 18, 'Черный'),
-       (21, 19, 'Hugo Boss'),
-       (21, 20, 'Классический'),
-       (22, 21, 'O''Reilly'),
-       (22, 22, 'John Smith');
+values (1, 'Смартфон Samsung Galaxy S21', 100000),
+       (1, 'Ноутбук Dell XPS 15', 150000),
+       (1, 'Планшет Apple iPad Pro', 80000),
+       (2, 'Футболка Nike', 3000),
+       (2, 'Джинсы Levi''s 501', 5000),
+       (3, 'Мастер и Маргарита', 1500),
+       (3, 'Война и мир', 2000);
 
 
-insert into products (category_id, product_name, cost)
-values (1, 'Монитор', 300),
-       (1, 'Мышь', 20),
-       (2, 'Пальто', 80),
-       (2, 'Шарф', 25),
-       (3, 'SQL и базы данных', 35),
-       (3, 'Swift для iOS', 45);
+-- Добавление данных в таблицу products для категории 'Электроника'
+INSERT INTO products (category_id, product_name, cost)
+VALUES (1, 'Смартфон Samsung Galaxy S21', 399990),
+       (1, 'Ноутбук Apple MacBook Pro', 1329990),
+       (1, 'Телевизор LG OLED65C1', 1419990);
 
-insert into characteristics (category_id, characteristic_name)
-values (1, 'Диагональ'),
-       (1, 'Тип подключения'),
-       (2, 'Материал'),
-       (2, 'Узор'),
-       (3, 'Издательство'),
-       (3, 'Авторство');
+-- Привязка характеристик к продуктам для категории 'Электроника'
+INSERT INTO product_characteristic (product_id, characteristic_id, characteristic)
+VALUES (1, 1, 'Samsung'),
+       (1, 2, 'Android'),
+       (1, 3, '2021'),
+       (1, 4, '6.2'),
+       (2, 1, 'Apple'),
+       (2, 2, 'macOS'),
+       (2, 3, '2020'),
+       (2, 4, '-'), -- Диагональ дисплея для ноутбука не применима
+       (3, 1, 'LG'),
+       (3, 2, 'webOS'),
+       (3, 3, '2021'),
+       (3, 4, '65');
 
-insert into product_characteristic (product_id, characteristic_id, characteristic)
-values (23, 23, '27 дюймов'),
-       (23, 24, 'HDMI'),
-       (24, 23, 'Bluetooth'),
-       (24, 24, 'Беспроводная'),
-       (25, 25, 'Шерсть'),
-       (25, 26, 'Клетка'),
-       (26, 27, 'O''Reilly'),
-       (26, 28, 'John Doe');
+-- Добавление данных в таблицу products для категории 'Одежда'
+INSERT INTO products (category_id, product_name, cost)
+VALUES (2, 'Футболка Nike', 15990),
+       (2, 'Джинсы Wrangler', 39590),
+       (2, 'Куртка Columbia', 89590);
 
+-- Привязка характеристик к продуктам для категории 'Одежда'
+INSERT INTO product_characteristic (product_id, characteristic_id, characteristic)
+VALUES (4, 5, 'M'),
+       (4, 6, 'Синий'),
+       (4, 7, 'Nike'),
+       (5, 5, 'L'),
+       (5, 6, 'Черный'),
+       (5, 7, 'Wrangler'),
+       (6, 5, 'XL'),
+       (6, 6, 'Красный'),
+       (6, 7, 'Columbia');
 
-select *
-from orders o1,
-     (select count(o.count), product_id
-      from orders o
-      group by o.product_id
-      order by 1) o2
-where o1.product_id = o2.product_id;
+-- Добавление данных в таблицу products для категории 'Книги'
+INSERT INTO products (category_id, product_name, cost)
+VALUES (3, 'Гарри Поттер и Философский Камень', 2950),
+       (3, 'Мастер и Маргарита', 1250),
+       (3, 'Преступление и наказание', 1890);
 
-
-select *
-from products
-         left join orders o on products.product_id = o.product_id
-
+-- Привязка характеристик к продуктам для категории 'Книги'
+INSERT INTO product_characteristic (product_id, characteristic_id, characteristic)
+VALUES (7, 8, 'Джоан Роулинг'),
+       (7, 9, 'Bloomsbury'),
+       (7, 10, '1997'),
+       (8, 8, 'Михаил Булгаков'),
+       (8, 9, 'Художественная литература'),
+       (8, 10, '1967'),
+       (9, 8, 'Федор Достоевский'),
+       (9, 9, 'Эксмо'),
+       (9, 10, '1866');

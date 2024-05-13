@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,16 +40,20 @@ public class ProductService {
     private OrderRepository orderRepository;
 
     @Transactional
-    public List<Product> findAll(){
+    public List<Product> findAll() {
         return productRepository.findAll();
     }
 
     @Transactional
     public Page<Product> findAll(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<Product> productPage = productRepository.findAll(pageable);
 
-        return productPage;
+        return productRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public List <Product> findAll(Specification<Product> specification) {
+        return productRepository.findAll(specification);
     }
 
     @Transactional
@@ -104,7 +109,7 @@ public class ProductService {
         Product product = productRepository.findById(id).orElse(null);
         if (product == null) throw new Exception();
 
-        if (productDto.getName()!=null) {
+        if (productDto.getName() != null) {
             if (productRepository.findByProductName(productDto.getName()) != null) {
                 throw new Exception("Данное название уже занято!");
             }
@@ -137,13 +142,13 @@ public class ProductService {
     }
 
 
-    public List<NewProduct> findMostOrderedProducts(){
+    public List<NewProduct> findMostOrderedProducts() {
         return productRepository.findMostOrderedProducts();
     }
 
 
     @Transactional
-    public List<Product> findAllByCategory(Category category){
+    public List<Product> findAllByCategory(Category category) {
         return productRepository.findAllByCategory(category);
     }
 }

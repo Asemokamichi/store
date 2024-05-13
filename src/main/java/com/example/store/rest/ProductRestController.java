@@ -1,16 +1,19 @@
 package com.example.store.rest;
 
-import com.example.store.dto.CategoryDto;
-import com.example.store.dto.PageDto;
 import com.example.store.dto.ProductDto;
-import com.example.store.entity.Category;
+import com.example.store.entity.Characteristic;
 import com.example.store.entity.Product;
+import com.example.store.repository.CharacteristicRepository;
+import com.example.store.repository.ProductRepository;
+import com.example.store.repository.specification.ProductSpecification;
 import com.example.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/rest/products")
@@ -18,21 +21,18 @@ public class ProductRestController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CharacteristicRepository characteristicRepository;
+
 //    @GetMapping
 //    public List<ProductDto> productList(){
 //        List<Product> products =  productService.findAll();
 //        return products.stream().map(ProductDto::from).toList();
 //    }
 
-    @GetMapping()
-    public PageDto productListByPage(@RequestParam(value = "page", required = false) Integer page) {
-        if (page == null) page = 0;
-        Page<Product> productPage = productService.findAll(page, 5);
-
-        PageDto pageDto = new PageDto(productPage);
-
-        return pageDto;
-    }
 
     @PostMapping
     public Object createProduct(@RequestBody ProductDto productDto) {
@@ -60,11 +60,28 @@ public class ProductRestController {
     }
 
 
-    // `/products/7` (POST) -> update
-    // {
-    //   "name": "new name...",
-    //   "options": [
-    //     5: "new option value"
-    //   ]
-    // }
+    @GetMapping("/filter")
+    public Object filterByFromAndTo(@RequestParam(value = "from", required = false) Integer from,
+                                    @RequestParam(value = "to", required = false) Integer to) {
+        List<Product> products = productRepository.findAll(ProductSpecification.byPrice(from, to));
+
+        return  products;
+    }
+
+//    @GetMapping("/filterCharacteristic")
+//    public Object filterByCharacteristic() {
+//        Map<Characteristic, List<String>> filter = new HashMap<>();
+//        filter.put(characteristicRepository.findById(1l).orElse(null),
+//                List.of("Samsung")
+//        );
+//
+//        filter.put(characteristicRepository.findById(2l).orElse(null),
+//                List.of("Android", "Windows")
+//        );
+//
+//        List<Product> products = productRepository.findAll(
+//                ProductSpecification.byCharacteristic(filter));
+//
+//        return  products;
+//    }
 }

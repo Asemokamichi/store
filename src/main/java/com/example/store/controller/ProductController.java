@@ -59,6 +59,7 @@ public class ProductController {
         model.addAttribute("products", products);
         model.addAttribute("page", productPage.getNumber());
         model.addAttribute("items", items);
+        model.addAttribute("flag", true);
 
         return "products/index";
     }

@@ -1,0 +1,10 @@
+<div>
+    <p>Выберите категорию:</p>
+    <div class="category-buttons">
+        <th:block th:each="category, iterStat : ${categories}">
+            <form th:action="${'filter/' + category.categoryId}" th:class="${iterStat.first} ? '' : 'with-border'">
+                <input type="submit" class="category-button" th:value="${category.categoryName}">
+            </form>
+        </th:block>
+    </div>
+</div>

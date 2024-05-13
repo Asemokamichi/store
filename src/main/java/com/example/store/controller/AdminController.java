@@ -130,7 +130,7 @@ public class AdminController {
 
         if (characteristicIDList !=null &&
                 characteristicValueList!=null
-        )productCharacteristicService.saveAll(characteristicIDList, characteristicValueList);
+        ) productCharacteristicService.saveAll(characteristicIDList, characteristicValueList);
 
         productService.save(product);
 

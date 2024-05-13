@@ -2,59 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head(Products)"></head>
 <body>
-<th:block th:replace="fragments/head :: nav"></th:block>
+<th:block th:replace="fragments/nav"></th:block>
 <h1>Products</h1>
-<table class="products" th:if="${!products.isEmpty()}">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th class="name">Name</th>
-        <th>Category ID</th>
-        <th class="categoruName">Category Name</th>
-        <th class="cost">Cost</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="product : ${products}">
-        <td th:text="${product.productId}"></td>
-        <td class="product_name">
-            <a th:href="${'/product/details_product?product_id=' + product.productId}">
-                <th:block th:text="${product.productName}"></th:block>
-            </a></td>
-        <td th:text="${product.category.categoryId}"></td>
-        <td th:text="${product.category.categoryName}"></td>
-        <td th:text="${product.cost}"></td>
-        <td>
-            <form action="/moderation/delete_product" method="POST"
-                  th:if="${user!=null && user.role.name() == 'ADMIN'}">
-                <input type="hidden" name="product_id" th:value="${product.productId}">
-                <input type="hidden" name="page" th:value="${page}">
-                <input type="submit" value="Delete">
-            </form>
-            <form action="/moderation/edit_product" method="POST" th:if="${user!=null && user.role.name() == 'ADMIN'}">
-                <input type="hidden" name="product_id" th:value="${product.productId}">
-                <input type="submit" value="Edit">
-            </form>
-            <form action="/cart/into_a_basket" method="GET">
-                <input type="hidden" name="product_id" th:value="${product.productId}">
-                <input type="hidden" name="page" th:value="${page}">
-                <input type="submit" value="into a basket" th:class="${user==null ? 'submitDisable' : ''}"
-                       th:disabled="${user==null}">
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<div th:if="${products.isEmpty()}" class="no-items-message">
-    Товара нет!
-</div>
-
+<form action="/filter"><input type="submit" value="Filter"></form>
+<th:block th:replace="fragments/products/table"></th:block>
 <div class="center" th:if="${user!=null && user.role.name() == 'ADMIN'}">
     <a href="/moderation/add_product" class="button">Добавить новый продукт</a>
 </div>
-
 <div class="item-list">
     <ul class="pager">
         <th:block th:each="item : ${items}">

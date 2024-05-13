@@ -1,20 +1,16 @@
 package com.example.store.dto;
 
 import com.example.store.entity.Characteristic;
-import com.example.store.entity.ProductCharacteristic;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Getter
+@Setter
+@Component
 public class FilterDTO {
-    private Map<Long, List<ProductCharacteristic>> filterMap = new HashMap<>();
-
-    public Map<Long, List<ProductCharacteristic>> getFilterMap() {
-        return filterMap;
-    }
-
-    public void setFilterMap(Map<Long, List<ProductCharacteristic>> filterMap) {
-        this.filterMap = filterMap;
-    }
+    private Map<Long, List<String>> filterMap;
 }

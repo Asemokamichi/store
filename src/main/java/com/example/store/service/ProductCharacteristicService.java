@@ -33,6 +33,7 @@ public class ProductCharacteristicService {
     public void saveAll(List<Long> characteristicIDList, List<String> characteristicValueList) {
         if (characteristicIDList.size() == characteristicValueList.size() && !characteristicIDList.isEmpty()) {
             for (int i = 0; i < characteristicIDList.size(); i++) {
+                if (characteristicValueList.get(i).isEmpty()) continue;
                 ProductCharacteristic pc = findById(characteristicIDList.get(i));
                 pc.setCharacteristicValue(characteristicValueList.get(i));
 
@@ -60,9 +61,8 @@ public class ProductCharacteristicService {
     }
 
     @Transactional
-    public List<ProductCharacteristic> productCharacteristicRepository(Characteristic characteristic) {
+    public List<String> productCharacteristicRepository(Characteristic characteristic) {
         return productCharacteristicRepository
-                .findByCharacteristic(characteristic)
-                .orElse(null);
+                .findByCharacteristic(characteristic);
     }
 }

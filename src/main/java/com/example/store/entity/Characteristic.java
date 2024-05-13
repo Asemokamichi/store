@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "characteristics")
-//@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Characteristic {
@@ -25,11 +24,9 @@ public class Characteristic {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "characteristic")
-    @JsonIgnore
     List<ProductCharacteristic> productCharacteristics;
 
     public long getCharacteristicId() {

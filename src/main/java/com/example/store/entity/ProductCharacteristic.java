@@ -21,12 +21,10 @@ public class ProductCharacteristic {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonIgnore
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "characteristic_id")
-    @JsonIgnore
     private Characteristic characteristic;
 
     public long getProductCharacteristicId() {

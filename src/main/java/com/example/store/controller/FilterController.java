@@ -3,7 +3,9 @@ package com.example.store.controller;
 import com.example.store.dto.FilterDTO;
 import com.example.store.entity.Category;
 import com.example.store.entity.Characteristic;
-import com.example.store.entity.ProductCharacteristic;
+import com.example.store.entity.Product;
+import com.example.store.repository.CharacteristicRepository;
+import com.example.store.repository.specification.ProductSpecification;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ProductCharacteristicService;
 import com.example.store.service.ProductService;
@@ -11,15 +13,9 @@ import com.example.store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/filter")
@@ -36,47 +32,67 @@ public class FilterController {
     @Autowired
     private ProductCharacteristicService pcService;
 
+    @Autowired
+    private CharacteristicRepository characteristicRepository;
+
 
     @GetMapping
-    public String filterMain(@RequestParam(value = "category_id", required = false) Long categoryID,
-                             Model model) {
-        Category category = null;
-        Map<Characteristic, List<ProductCharacteristic>> map = new HashMap<>();
-
-        if (categoryID != null) category = categoryService.findById(categoryID);
-
-        if (category != null) {
-            for (Characteristic c : category.getCharacteristics()) {
-                List<ProductCharacteristic> characteristicValueList = pcService.productCharacteristicRepository(c);
-
-                if (!characteristicValueList.isEmpty())
-                    map.put(c, characteristicValueList);
-            }
-            model.addAttribute("products", productService.findAllByCategory(category));
-        } else {
-            model.addAttribute("products", productService.findAll());
-        }
-
-        var filterDto = new FilterDTO();
-        for (Characteristic characteristic : map.keySet()) {
-            filterDto.getFilterMap().put(characteristic.getCharacteristicId(), new ArrayList<>());
-        }
-
-        System.out.println(filterDto.getFilterMap());
-
-        model.addAttribute("filterDto", filterDto);
+    public String filterMain(Model model) {
+        System.out.println(new Category().getCategoryId());
+        model.addAttribute("filterDto", new FilterDTO());
+        model.addAttribute("products", productService.findAll());
         model.addAttribute("user", userService.getUser());
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("map", map);
-        model.addAttribute("currentCategory", category);
+        model.addAttribute("currentCategory", null);
+        model.addAttribute("flag", false);
 
-        return "filter";
+        return "filter/index";
     }
 
-    @PostMapping("/action")
-    public String handleFormSubmission(@RequestParam FilterDTO filterDTO) {
-        System.out.println(filterDTO);
+    @GetMapping("/{category_id}")
+    public String filterByCategory(@PathVariable Long category_id,
+                                   @ModelAttribute FilterDTO filterDTO,
+                                   @RequestParam(value = "max", required = false)Long max,
+                                   @RequestParam(value = "min", required = false)Long min,
+                                   Model model) {
+        Category category = categoryService.findById(category_id);
+        Map<Characteristic, List<String>> map = new LinkedHashMap<>();
 
-        return "redirect:/filter"; // Перенаправление на страницу success-page
+        for (Characteristic c : category.getCharacteristics()) {
+            List<String> characteristicValueList = pcService.productCharacteristicRepository(c);
+
+            if (!characteristicValueList.isEmpty()) {
+                map.put(c, characteristicValueList);
+            }
+        }
+
+        Map<Characteristic, List<String>> filter = new HashMap<>();
+        List<Product> products;
+
+        System.out.printf("min = %d   max = %d\n", min, max);
+
+        if (filterDTO.getFilterMap() != null) {
+            for (Long id : filterDTO.getFilterMap().keySet()) {
+                List<String> values = filterDTO.getFilterMap().get(id);
+                if (values == null) continue;
+
+                characteristicRepository.findById(id).ifPresent(characteristic -> filter.put(characteristic, values));
+            }
+            products = productService.findAll(ProductSpecification.byCharacteristic(category, filter, min, max));
+        } else products = productService.findAllByCategory(category);
+
+        LongSummaryStatistics stat = products.stream()
+                .mapToLong(Product::getCost)
+                .summaryStatistics();
+
+        model.addAttribute("products", products);
+        model.addAttribute("user", userService.getUser());
+        model.addAttribute("filterDto", filterDTO.getFilterMap() == null ? new FilterDTO() : filterDTO);
+        model.addAttribute("map", map);
+        model.addAttribute("currentCategory", category);
+        model.addAttribute("flag", false);
+        model.addAttribute("max", stat == null ? 0 : stat.getMax());
+        model.addAttribute("min", stat == null ? 0 : stat.getMin());
+        return "filter/index";
     }
 }
