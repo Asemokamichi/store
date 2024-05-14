@@ -1,5 +1,6 @@
 package com.example.store.repository;
 
+import com.example.store.dto.MaxAndMinResultProducts;
 import com.example.store.dto.NewProduct;
 import com.example.store.entity.Category;
 import com.example.store.entity.Product;
@@ -25,4 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<NewProduct> findMostOrderedProducts();
 
     List<Product> findAllByCategory(Category category);
+
+    @Query("select new com.example.store.dto.MaxAndMinResultProducts(max(cost), min(cost)) " +
+            "from Product " +
+            "where category = ?1")
+    MaxAndMinResultProducts MaxAndMinFindByCategory(Category category);
 }

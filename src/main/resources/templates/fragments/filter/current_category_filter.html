@@ -4,9 +4,12 @@
 </div>
 
 <form id="sliderForm" method="get">
-    <input type="hidden" name="min" id="minValueInput">
-    <input type="hidden" name="max" id="maxValueInput">
-    <div id="slider" th:data-min-value="${min}" th:data-max-value="${max}"></div>
+    <input type="hidden" name="currentMin" id="currentMin"/>
+    <input type="hidden" name="currentMax" id="currentMax"/>
+
+    <div id="slider" th:data-current-min="${currentMin}" th:data-current-max="${currentMax}"
+         th:data-min="${min}" th:data-max="${max}"
+    ></div>
     <p>Выбранный диапазон: <br><span id="slider-value"></span></p>
 
     <th:block th:each="entry, iterStat : ${map}">

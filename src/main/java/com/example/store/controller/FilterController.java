@@ -1,6 +1,7 @@
 package com.example.store.controller;
 
 import com.example.store.dto.FilterDTO;
+import com.example.store.dto.MaxAndMinResultProducts;
 import com.example.store.entity.Category;
 import com.example.store.entity.Characteristic;
 import com.example.store.entity.Product;
@@ -38,6 +39,7 @@ public class FilterController {
 
     @GetMapping
     public String filterMain(Model model) {
+        Object j = null;
         System.out.println(new Category().getCategoryId());
         model.addAttribute("filterDto", new FilterDTO());
         model.addAttribute("products", productService.findAll());
@@ -52,9 +54,10 @@ public class FilterController {
     @GetMapping("/{category_id}")
     public String filterByCategory(@PathVariable Long category_id,
                                    @ModelAttribute FilterDTO filterDTO,
-                                   @RequestParam(value = "max", required = false)Long max,
-                                   @RequestParam(value = "min", required = false)Long min,
+                                   @RequestParam(value = "currentMax", required = false) Long currentMax,
+                                   @RequestParam(value = "currentMin", required = false) Long currentMin,
                                    Model model) {
+
         Category category = categoryService.findById(category_id);
         Map<Characteristic, List<String>> map = new LinkedHashMap<>();
 
@@ -69,7 +72,7 @@ public class FilterController {
         Map<Characteristic, List<String>> filter = new HashMap<>();
         List<Product> products;
 
-        System.out.printf("min = %d   max = %d\n", min, max);
+        System.out.printf("min = %d   max = %d\n", currentMin, currentMax);
 
         if (filterDTO.getFilterMap() != null) {
             for (Long id : filterDTO.getFilterMap().keySet()) {
@@ -78,21 +81,29 @@ public class FilterController {
 
                 characteristicRepository.findById(id).ifPresent(characteristic -> filter.put(characteristic, values));
             }
-            products = productService.findAll(ProductSpecification.byCharacteristic(category, filter, min, max));
+            products = productService.findAll(
+                    ProductSpecification.byCharacteristic(category, filter, currentMin, currentMax)
+            );
         } else products = productService.findAllByCategory(category);
 
-        LongSummaryStatistics stat = products.stream()
-                .mapToLong(Product::getCost)
-                .summaryStatistics();
+//        LongSummaryStatistics stat = products.stream()
+//                .mapToLong(Product::getCost)
+//                .summaryStatistics();
 
-        model.addAttribute("products", products);
+        MaxAndMinResultProducts maxAndMin = productService.MaxAndMinFindByCategory(category);
+
         model.addAttribute("user", userService.getUser());
+        model.addAttribute("products", products);
         model.addAttribute("filterDto", filterDTO.getFilterMap() == null ? new FilterDTO() : filterDTO);
         model.addAttribute("map", map);
         model.addAttribute("currentCategory", category);
         model.addAttribute("flag", false);
-        model.addAttribute("max", stat == null ? 0 : stat.getMax());
-        model.addAttribute("min", stat == null ? 0 : stat.getMin());
+
+        model.addAttribute("max", maxAndMin.getMax());
+        model.addAttribute("min", maxAndMin.getMin());
+
+        model.addAttribute("currentMax", currentMax == null ? maxAndMin.getMax() : currentMax);
+        model.addAttribute("currentMin", currentMin == null ? maxAndMin.getMin() : currentMin);
         return "filter/index";
     }
 }

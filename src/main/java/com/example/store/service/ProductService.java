@@ -1,6 +1,7 @@
 package com.example.store.service;
 
 import com.example.store.dto.CategoryDto;
+import com.example.store.dto.MaxAndMinResultProducts;
 import com.example.store.dto.NewProduct;
 import com.example.store.dto.ProductDto;
 import com.example.store.entity.Category;
@@ -151,6 +152,13 @@ public class ProductService {
     public List<Product> findAllByCategory(Category category) {
         return productRepository.findAllByCategory(category);
     }
+
+
+    @Transactional
+    public MaxAndMinResultProducts MaxAndMinFindByCategory(Category category){
+        return productRepository.MaxAndMinFindByCategory(category);
+    }
+
 }
 
 
