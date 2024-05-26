@@ -35,7 +35,10 @@ public class ProductController {
 
 
     @GetMapping()
-    public String products(@RequestParam(value = "page", required = false) Integer pageNumber, Model model) {
+    public String products(@RequestParam(value = "page", required = false) Integer pageNumber,
+                           @RequestParam(value = "option", required = false) String option,
+                           Model model) {
+        System.out.println("option = " + option);
         if (pageNumber == null) pageNumber = 0;
 
         Page<Product> productPage = productService.findAll(pageNumber, 5);

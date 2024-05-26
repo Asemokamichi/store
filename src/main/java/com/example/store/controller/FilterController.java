@@ -39,7 +39,6 @@ public class FilterController {
 
     @GetMapping
     public String filterMain(Model model) {
-        Object j = null;
         System.out.println(new Category().getCategoryId());
         model.addAttribute("filterDto", new FilterDTO());
         model.addAttribute("products", productService.findAll());
